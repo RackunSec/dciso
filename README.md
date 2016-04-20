@@ -1,6 +1,8 @@
 # Debian Custom ISO Scripts and Tutorial
 These are scripts I made to help with the design and customization of a Debian ISO (Primarily WeakerThan Linux). This is a work in progress and will be updated with video tutorials, scripts, and lot's of documentation on the process in which I created WT7 Elite.
 
+<img src="https://weaknetlabs.com/images/dev-img.png"/>
+
 ## Custom Scripts
 This repository should help anyone who is unfamiliar with the process of creating a customized ISO but this is NO MEANS a full tutorial on the subject. This is just how I do it and I have thoroughly tested every step, but in the world of open-source small changes and destroy a house of cards, so to speak. Please make sure you report erros with logs or terminal output so I can better help troubleshoot any issues that arise during your ISO building. I am making this because I honestly could not find solid, working, up-to-date tutorials anywhere I looked. I could not get Debian's "live-build" working preoperly for the life of me and it just seemed very convoluted. This tutorial and these scripts were designed to work with Debian Stretch. We will be designing our own custom 32bit Debian ISO with the SYSLINUX boot loader.
 
