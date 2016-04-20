@@ -1,4 +1,8 @@
 #!/bin/bash
+#
+# This script creates the ISO and SquashFS
+#  It will be a "hybrid" image that you can put onto USB using disk-damager
+#
 echo "Creating development directories in ./binary"
 mkdir -p binary/{live,isolinux}
 echo "Copying LINUX to the development directory"
