@@ -21,4 +21,5 @@ rm -rf /root/Videos/*
 ## Clean up all temp files with BleachBit:
 bleachbit
 rm /var/lib/dbus/machine-id && rm -rf /tmp/*
-umount /proc /sys /dev/pts
+umount /proc /sys /dev/pts /dev
+exit;

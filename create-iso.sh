@@ -33,11 +33,16 @@ if [ -f "binary/live/filesystem.squashfs" ];then # filesystem successfully made
  menu title Weakerthan Linux 7 Elite
  timeout 300
  
- label wt7-elite-live
+ label WT7 Elite x86
   menu label ^Weakerthan Linux 7 Elite - (Live)
   menu default
   linux live/vmlinuz
   append initrd=/live/initrd boot=live persistence quiet
+
+ label WT7 Live (Fail Safe)
+  menu label ^Live (x86 failsafe)
+  linux /live/vmlinuz
+  append initrd=/live/initrd boot=live persistence config memtest noapic noapm nodma nomce nolapic nomodeset nosmp nosplash vga=normal
 CFG
  TS=$(date|awk '{gsub(":",".",$4); print $3$4$6}')
  xorriso -as mkisofs -r -J -joliet-long -l -cache-inodes \
