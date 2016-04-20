@@ -1,4 +1,4 @@
-# Debian Custom Iso Scripts and Tutorial
+# Debian Custom ISO Scripts and Tutorial
 These are scripts I made to help with the design and customization of a Debian ISO (Primarily WeakerThan Linux). This is a work in progress and will be updated with video tutorials, scripts, and lot's of documentation on the process in which I created WT7 Elite.
 
 ## Custom Scripts
