@@ -36,7 +36,7 @@ if [ -f "binary/live/filesystem.squashfs" ];then # filesystem successfully made
  label WT7 Elite x86
   menu label ^Weakerthan Linux 7 Elite - (Live)
   menu default
-  linux live/vmlinuz
+  linux /live/vmlinuz
   append initrd=/live/initrd boot=live persistence quiet
 
  label WT7 Live (Fail Safe)
