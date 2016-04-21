@@ -15,7 +15,7 @@ The first part, is simply customizing the Debian ISO, in our case the Weakerthan
 ### Updating an ISO
 This process begins with a pre-existing ISO that you would like to make changes to. To start, we need an installation of Linux with lots of space and some tools installed. I figured out how to do this because, halfway through the development process of WT 7 Alpha, I lost my work. There are a few steps involved with getting a chroot envionment from an ISO and they are:
 * Get the ISO
-* Extract the filesystem - the root directory with /mnt, /dev, /home, /proc, /sys, /var, /etc, etc in it. This is compressed into a SquashFS in Weakerthan LINUX, but not all LINUXs. Mount the ISO as a loop device and extract the squashfs.filesystem file.
+* Extract the filesystem - the root directory with /mnt, /dev, /home, /proc, /sys, /var, /etc, etc in it. This is compressed into a SquashFS in Weakerthan LINUX, but not all LINUXs. Mount the ISO as a loop device and extract the filesystem.squashfs file.
   * <code>mkdir ./mnt</code> 
   * <code>mount -o loop linux.iso ./mnt</code>
   * <code>apt-get install squashfs-tools</code>
@@ -35,7 +35,7 @@ Copy the "in-chroot-scripts" directory in the "./chroot" directory so that we ca
 <code>cp ./debian-custom-iso-scripts ./chroot/tmp/</code>
 <code>./chroot-script.sh</code>
 
-In the new chrooted envionment, we need to run the "wt7-mounts.sh" script. This will double check the mounted fileystems we just did and set up the environment, including generating a new uuid for the system. 
+In the new chrooted envionment, we need to run the "wt7-mounts.sh" script. This will double check the mounted fileystems we just did and set up the environment, including generating a new uuid for the system. We don't need to run this each time we chroot to "./chroot" once ran, the devices will stay mounted to their respective mountpoints even when we exit the chroot with CTRL+D. 
 
 <code>./wt7-mounts.sh</code>
 
