@@ -23,31 +23,21 @@ This process begins with a pre-existing ISO that you would like to make changes 
   * <code>mv chroot/* chroot</code>
   * <code>rm -rf chroot/squashfs-root</code>
 
-Now we have a clone of the live filesystem and we can chroot to it and customize it and make our changes. To "chroot" means to change the root directory. We will call our host OS, the "host" and the chroot envionment the "chroot" from here on. When we are done making changes in the chroot, we can simply type "exit" or CTRL+D to exit the chroot. Let's continue on and install the tools necessary to build the ISO.
+Now we have a clone of the live filesystem and we can chroot to it and customize it and make our changes. To "chroot" means to change the root directory. To "chroot" we use the <code>chroot ./chroot</code> command. We will call our host OS, the "host" and the chroot envionment the "chroot" from here on. When we are done making changes in the chroot, we can simply type "exit" or CTRL+D to exit the chroot. Let's continue on and install the tools necessary to build the ISO.
 
 <code>apt-get update</code><br />
 <code>apt-get install deboostrap isolinux live-build</code>
 
-Next, we need to download the ISO that we want to make changes to and extract the squash filesystem from it.
-
-<code>mkdir ./mnt</code><br />
-<code>mount -o loop file.iso ./mnt</code>
-
-Next step - un-squash the squashfs and get the directory contents of "/" (root)
-
-<code>unsquashfs ./mnt/live/squashfs.filesystem </code>
-
-This will create a new directory called "squashfs-root" which contains all of the normal contents that you would find in a LINUX filesystem tree starting at "/" (root). We simply rename the "squashfs-root" directory to "chroot" and we have a working space to <code>chroot</code> to and make our changes in - but not before we mount some things. 
-
 Copy the "in-chroot-scripts" directory in the "./chroot" directory so that we can access them once we have chrooted. Before we "chroot" though, we need to mount /dev/, /dev/pts, /proc, and /sys - bound to the actual mountded devices. I do this in the "chroot-script.sh" script. So, after runing the script, you will be chrooted in the new environment.
 
-<code>./chroot-script/sh</code>
+<code>cp ./debian-custom-iso-scripts ./chroot/tmp/</code>
+<code>./chroot-script.sh</code>
 
-In the new chrooted envionment, we need to run the wt7-mounts.sh script. This will double check the mounted fileystems we just did and set up the enviroment, including generating a new uuid for the system. 
+In the new chrooted envionment, we need to run the "wt7-mounts.sh" script. This will double check the mounted fileystems we just did and set up the environment, including generating a new uuid for the system. 
 
 <code>./wt7-mounts.sh</code>
 
-Once done with our customizations, we simply run the "wt7-umount.sh" script. This will clean up the ISO and unmount the filesystems and exit us back to the host environment.
+Now we can install the kernel, packages, and customize the crap out of the new OS workspace! Once done with our customizations, we simply run the "wt7-umount.sh" script. This will clean up the ISO and unmount the filesystems and exit us back to the host environment.
 
 ### Creating a New Image From Scratch
 This process is exactly the same as the process above, but we need to get the Debian FS, packages, and LINUX kernel before hand. We do so by running the "initialize-build-process.sh" script. DO NOT RUN THIS IF YOU ALREADY HAVE A "chroot" environment with customized changes in it. It WILL BE DESTROYED. Once done, you can go back uup to the "Updating an ISO" section and begin updating LINUX.
