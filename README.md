@@ -5,7 +5,9 @@ These are scripts that I made to help with the design and customization of a Deb
 <i>Screenshot: Weakerthan LINUX 7 "Elite" Alpha, tested in Oracle's VirtualBox.</i>
 
 ## Custom Scripts
-This repository should help anyone who is unfamiliar with the process of creating a customized ISO but this is NO MEANS a full tutorial on the subject. This is just how I do it and I have thoroughly tested every step, but in the world of open-source, small changes can destroy a house of cards, so to speak. Please make sure you report errors with logs or terminal output so I can better help troubleshoot any issues that arise during your ISO building. I am making this because I honestly could not find solid, working, up-to-date tutorials anywhere I looked. I could not get Debian's "live-build" working preoperly for the life of me and it just seemed very convoluted. This tutorial and these scripts were designed to work with Debian Stretch. We will be designing our own custom 32bit Debian ISO with the SYSLINUX boot loader.
+This repository should help anyone who is unfamiliar with the process of creating a customized ISO but this is NO MEANS a full tutorial on the subject. This is just how I do it and I have thoroughly tested every step, but in the world of open-source, small changes can destroy a house of cards, so to speak. Please make sure you report errors with logs or terminal output so I can better help troubleshoot any issues that arise during your ISO building. I am making this because I honestly could not find solid, working, up-to-date tutorials anywhere I looked. I could not get Debian's "live-build" working preoperly for the life of me and it just seemed very convoluted. This tutorial and these scripts were designed to work with Debian Stretch. We will be designing our own custom 32bit Debian ISO with the SYSLINUX boot loader. 
+
+I highly recommend looking at the source code of the scripts. The utilize Bash programming, AWK, SED, and Grep and are written with lots of comments. This should help anyone unfamiliar with the process of creating a live ISO, or even installing an ISO to a HDD. It's what I did, anyways. I peered into the source of Tony's Remastersys Project. Tony understood this process very well and his scripts to automate it were what I used for years until his project was ditched. The processes that he started have changed with the new Debian and GNU LINUX kernel updates. So, I built my installer and ISO creation scripts from scratch using Tony's work as a reference point.
 
 ## Tutorial
 The first part, is simply customizing the Debian ISO, in our case the Weakerthan LINUX flavor. The process is that same for starting from scratch, but you need to run the "initialize-build-process.sh" script which will install all of the necessary tools to build the ISO and download the Debian LINUX system including packages and system configurations using the "lb" live-build Debian tool. I actually don't recommend doing this, but if you really want to start from scratch, do it this way instead of updating an ISO.
@@ -28,7 +30,7 @@ Now we have a clone of the live filesystem and we can chroot to it and customize
 <code>apt-get update</code><br />
 <code>apt-get install deboostrap isolinux live-build</code>
 
-Copy the "in-chroot-scripts" directory in the "./chroot" directory so that we can access them once we have chrooted. Before we "chroot" though, we need to mount /dev/, /dev/pts, /proc, and /sys - bound to the actual mountded devices. I do this in the "chroot-script.sh" script. So, after runing the script, you will be chrooted in the new environment.
+Copy the "in-chroot-scripts" directory in the "./chroot" directory so that we can access them once we have chrooted. Before we "chroot" though, we need to mount /dev/, /dev/pts, /proc, and /sys - bound to the actual host-mounted devices. I do this in the "chroot-script.sh" script. So, after runing the script, you will be chrooted in the new environment.
 
 <code>cp ./debian-custom-iso-scripts ./chroot/tmp/</code>
 <code>./chroot-script.sh</code>
@@ -44,3 +46,4 @@ This process is exactly the same as the process above, but we need to get the De
 
 ## References
 SquashFS-Tools (Debian Package): https://packages.debian.org/search?keywords=squashfs-tools
+Remastersys Project: https://en.wikipedia.org/wiki/Remastersys
