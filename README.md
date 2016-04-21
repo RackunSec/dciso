@@ -44,6 +44,21 @@ Now we can install the kernel, packages, and customize the crap out of the new O
 ### Creating a New Image From Scratch
 This process is exactly the same as the process above, but we need to get the Debian FS, packages, and LINUX kernel before hand. We do so by running the "initialize-build-process.sh" script. DO NOT RUN THIS IF YOU ALREADY HAVE A "chroot" environment with customized changes in it. It WILL BE DESTROYED. Once done, you can go back uup to the "Updating an ISO" section and begin updating LINUX.
 
+## ISO Installer
+The installation process can be broken down into a few key steps. These are VERY important to understanding this process. I wrote my installer based off of Tony's Remastersys Installer which uses <code>rsync</code>, which uses the YAD dialog application for user I/O.
+
+* Use GParted to create a root partition "/" and LINUX-swap partition "swap"
+* Get timezone and hostname of new system from user
+* Copy everything in the root of the live filesystem into out new root partition usinf rsync, excluding the following directories: wt7, lib/live, live, cdrom, mnt, proc, run, sys, media
+* Create some empty directories for the Debian OS: proc, mnt, run, sys, media/cdrom
+* Remove some live-OS hooks and return "update-initramfs" back to it's original
+* Download and install GRUB and the Linux Kernel
+* Set up the new hostname
+* Clean up the filesystem logs, and package caches andf reboot
+
+I have code all of this, again using the YAD dialog tool in the "./installer/wt7-installer.run".
+
 ## References
 SquashFS-Tools (Debian Package): https://packages.debian.org/search?keywords=squashfs-tools<br />
-Remastersys Project: https://en.wikipedia.org/wiki/Remastersys
+Remastersys Project: https://en.wikipedia.org/wiki/Remastersys<br />
+Rsync: https://en.wikipedia.org/wiki/Rsync
