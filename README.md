@@ -22,6 +22,7 @@ This process begins with a pre-existing ISO that you would like to make changes 
   * <code>mv squashfs-root chroot</code>
   * <code>mv chroot/* chroot</code>
   * <code>rm -rf chroot/squashfs-root</code>
+
 Now we have a clone of the live filesystem and we can chroot to it and customize it and make our changes. To "chroot" means to change the root directory. We will call our host OS, the "host" and the chroot envionment the "chroot" from here on. When we are done making changes in the chroot, we can simply type "exit" or CTRL+D to exit the chroot. Let's continue on and install the tools necessary to build the ISO.
 
 <code>apt-get update</code><br />
