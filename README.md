@@ -58,6 +58,8 @@ The installation process can be broken down into a few key steps. These are VERY
 
 I have code all of this, again using the YAD dialog tool in the "./installer/wt7-installer.run".
 
+Check out the installer video demonstration on a VMWare 10GB Virtual Disk on Vimeo.com: https://vimeo.com/163707783
+
 ## References
 SquashFS-Tools (Debian Package): https://packages.debian.org/search?keywords=squashfs-tools<br />
 Remastersys Project: https://en.wikipedia.org/wiki/Remastersys<br />
