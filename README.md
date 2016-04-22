@@ -41,6 +41,21 @@ In the new chrooted envionment, we need to run the "wt7-mounts.sh" script. This 
 
 Now we can install the kernel, packages, and customize the crap out of the new OS workspace! Once done with our customizations, we simply run the "wt7-umount.sh" script. This will clean up the ISO and unmount the filesystems and exit us back to the host environment.
 
+### Generating the ISO Image
+This process uses the xorriso utility. Simply run the "./create-iso.sh" program and the image will be created with a timestamp in the file name. Also, I added a call to <code>md5sum</code> for generating an md5 integrity checksum file for your users to check if their download was actually successful. I would recommend using a VMWare Shared directory to copy the ISO file from the working VM to the Host OS for testing.
+
+<img src="https://weaknetlabs.com/images/create-iso.png" />
+<i>Screenshot: The ISO generation script as part of this project</i>
+
+In the screenshot above, you can see I added some colorful output. This is simply to help determine what output is form my script and what is from the external operations of the script. This process can be broken down into a few steps:
+
+* Create "./binary" a working place for our files.
+* Copy the kernel to the ./binary directory (initrd and vmlinuz from ./chroot).
+* Create the SquashFS filesystem file from ./chroot
+* Copy all ISOLINUX files from the hosts installation of the Debian isolinux package into the ./binary/isolinux directory.
+* Use the XorISO utility to generate the ISO file.
+* Use MD5Sum to generate the md5 file.
+
 ### Creating a New Image From Scratch
 This process is exactly the same as the process above, but we need to get the Debian FS, packages, and LINUX kernel before hand. We do so by running the "initialize-build-process.sh" script. DO NOT RUN THIS IF YOU ALREADY HAVE A "chroot" environment with customized changes in it. It WILL BE DESTROYED. Once done, you can go back uup to the "Updating an ISO" section and begin updating LINUX.
 
