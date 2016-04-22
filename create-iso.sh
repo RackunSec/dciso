@@ -27,23 +27,7 @@ if [ -f "binary/live/filesystem.squashfs" ];then # filesystem successfully made
 
  # Create an ISOLinux menu:
  echo "Creating the ISOLINUX configuration file" # this can be scripted to take args later:
- cat > binary/isolinux/isolinux.cfg << CFG
- ui menu.c32
- prompt 0
- menu title Weakerthan Linux 7 Elite
- timeout 300
- 
- label WT7 Elite x86
-  menu label ^Weakerthan Linux 7 Elite - (Live)
-  menu default
-  linux /live/vmlinuz
-  append initrd=/live/initrd boot=live persistence quiet
-
- label WT7 Live (Fail Safe)
-  menu label ^Live (x86 failsafe)
-  linux /live/vmlinuz
-  append initrd=/live/initrd boot=live persistence config memtest noapic noapm nodma nomce nolapic nomodeset nosmp nosplash vga=normal
-CFG
+ cp isolinux/isolinux.cfg binary/isolinux/ # ISOLINUX is now own directory
  TS=$(date|awk '{gsub(":",".",$4); print $3$4$6}')
  xorriso -as mkisofs -r -J -joliet-long -l -cache-inodes \
   -isohybrid-mbr /usr/lib/ISOLINUX/isohdpfx.bin -partition_offset 16 \
