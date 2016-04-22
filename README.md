@@ -42,18 +42,18 @@ In the new chrooted envionment, we need to run the "wt7-mounts.sh" script. This 
 Now we can install the kernel, packages, and customize the crap out of the new OS workspace! Once done with our customizations, we simply run the "wt7-umount.sh" script. This will clean up the ISO and unmount the filesystems and exit us back to the host environment.
 
 ### Generating the ISO Image
-This process uses the xorriso utility. Simply run the "./create-iso.sh" program and the image will be created with a timestamp in the file name. Also, I added a call to <code>md5sum</code> for generating an md5 integrity checksum file for your users to check if their download was actually successful. I would recommend using a VMWare Shared directory to copy the ISO file from the working VM to the Host OS for testing.
+This process uses the XorrISO utility. Simply run the "./create-iso.sh" program and the image will be created with a timestamp in the file name. Also, I added a call to <code>md5sum</code> for generating an md5 integrity checksum file for your users to check if their download was actually successful. I would recommend using a VMWare Shared directory to copy the ISO file from the working VM to the Host OS for testing.
 
-<img src="https://weaknetlabs.com/images/create-iso.png" />
+<img src="https://weaknetlabs.com/images/create-iso.png" /><br />
 <i>Screenshot: The ISO generation script as part of this project</i>
 
-In the screenshot above, you can see I added some colorful output. This is simply to help determine what output is form my script and what is from the external operations of the script. This process can be broken down into a few steps:
+In the screenshot above, you can see I added some colorful output to the script with ANSI colors and Unicode characters. This is simply to help determine what output is from my script and what is from the external operations of the script. This process can be broken down into a few steps:
 
 * Create "./binary" a working place for our files.
 * Copy the kernel to the ./binary directory (initrd and vmlinuz from ./chroot).
 * Create the SquashFS filesystem file from ./chroot
 * Copy all ISOLINUX files from the hosts installation of the Debian isolinux package into the ./binary/isolinux directory.
-* Use the XorISO utility to generate the ISO file.
+* Use the XorrISO utility to generate the ISO file.
 * Use MD5Sum to generate the md5 file.
 
 ### Creating a New Image From Scratch
@@ -78,4 +78,6 @@ Check out the installer video demonstration on a VMWare 10GB Virtual Disk on Vim
 ## References
 SquashFS-Tools (Debian Package): https://packages.debian.org/search?keywords=squashfs-tools<br />
 Remastersys Project: https://en.wikipedia.org/wiki/Remastersys<br />
-Rsync: https://en.wikipedia.org/wiki/Rsync
+Rsync: https://en.wikipedia.org/wiki/Rsync<br />
+XorrISO: https://www.gnu.org/software/xorriso/<br />
+Full UNICODE chart for scripting: http://www.fileformat.info/info/charset/UTF-8/list.htm?start=8192<br />
