@@ -53,11 +53,17 @@ fi
 # Create an MD5 checksum
 myPrintf "Creating MD5 checksum for your ISO image."
 if [ -f "wt7-elite-$TS.iso" ]; then # file exists:
- myPrintf "ISO file created successfully, generating MD5"
+ myPrintf "ISO file wt7-elite-$TS.iso created successfully, generating MD5"
  md5sum wt7-elite-$TS.iso |awk '{print $1}' > wt7-elite-$TS.md5
 else # no ISO
  myPrintf "ISO was not created, something went wrong. Please see details above."
  exit 1;
+fi # now check for MD5 existence:
+if [ -f "wt7-elite-$TS.md5" ];then
+ myPrintf "MD5 file wt7-elite-$TS.md5 created successfully."
+else
+ myPrintf "MD5 file could not be created. Something went wrong. Please try with \"md5sum wt7-elite-$TS.iso\""
+ exit 1;
 fi
-
+exit 0
 
