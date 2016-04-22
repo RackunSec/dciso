@@ -56,6 +56,9 @@ In the screenshot above, you can see I added some colorful output to the script 
 * Use the XorrISO utility to generate the ISO file.
 * Use MD5Sum to generate the md5 file.
 
+<img src="https://weaknetlabs.com/images/create-iso-2.png"/><br />
+<i>In the screenshot above, is the end of the ISO genertation script.</i>
+
 ### Creating a New Image From Scratch
 This process is exactly the same as the process above, but we need to get the Debian FS, packages, and LINUX kernel before hand. We do so by running the "initialize-build-process.sh" script. DO NOT RUN THIS IF YOU ALREADY HAVE A "chroot" environment with customized changes in it. It WILL BE DESTROYED. Once done, you can go back uup to the "Updating an ISO" section and begin updating LINUX.
 
