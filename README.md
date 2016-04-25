@@ -47,7 +47,7 @@ We will be using one of the SYSLINUX boot loaders, ISOLINUX, to boot the live im
 <i>Screenshot: The cutomized ISOLINUX splash screen for boot options.</i><br /><br />
 ISOLINUX is part of the SYSLINUX project and is the boot loader that is used for CDROM/live disks and ISOs. We have already installed the ISOLINUX package from the Debian repositories in one of the <code>apt</code> commands above. This will install a few files onto our host OS that we need to copy into our "./binary" directory and that is done with our "./create-iso.sh" shell script like so:<br />
 
-<b>NOTE: I would have included code here, but the "markdown" on this site is awful. TODO later I guess when bugs are fixed.</b>
+Please see: https://github.com/weaknetlabs/debian-custom-iso-scripts/blob/master/create-iso.sh lines 29-37. The markdown is not allowing them to be pasted correctly here.
 
 SYSLINUX is configured using the "./isolinux/" directory files. The first file to load is the "./isolinux/isolinux.cfg" file which makes an <code>include</code> call to "./isolinux/menu.cfg" And sets the user interface using the <code>ui</code> setting, to "vesamenu.c32". This is a "com32" file. "com32" files are binaries either coded in C or Assembly, which simply loads the user interface for the ISOLINUX boot loader as per our specs that we have set in the configuration files, "./isolinux/isolinux.cfg" and "./isolinux/menu.cfg" These files include which boot loader options to include (booting live or live failsafe in our case), spacial configuration settings, screen resolution, background image and even color settings for the text. 
 <br />
