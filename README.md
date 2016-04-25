@@ -42,7 +42,7 @@ In the new chrooted envionment, we need to run the "wt7-mounts.sh" script. This 
 Now we can install the kernel, packages, and customize the crap out of the new OS workspace! Once done with our customizations, we simply run the "wt7-umount.sh" script. This will clean up the ISO and unmount the filesystems and exit us back to the host environment.
 
 ###SYSLINUX
-We will be using one of the SYSLINUX boot loaders, ISOLINUX, to boot the live image. <br />
+We will be using one of the SYSLINUX boot loaders, ISOLINUX, to boot the live image. <br /><br />
 <img src="https://weaknetlabs.com/images/isolinux-screenshot.png" /><br />
 <i>Screenshot: The cutomized ISOLINUX splash screen for boot options.</i><br /><br />
 ISOLINUX is part of the SYSLINUX project and is the boot loader that is used for CDROM/live disks and ISOs. We have already installed the ISOLINUX package from the Debian repositories in one of the <code>apt</code> commands above. This will install a few files onto our host OS that we need to copy into our "./binary" directory and that is done with our "./create-iso.sh" shell script like so:<br />
