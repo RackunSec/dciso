@@ -28,7 +28,13 @@ This process begins with a pre-existing ISO that you would like to make changes 
 Now we have a clone of the live filesystem and we can chroot to it and customize it and make our changes. To "chroot" means to change the root directory. To "chroot" we use the <code>chroot ./chroot</code> command. We will call our host OS, the "host" and the chroot envionment the "chroot" from here on. When we are done making changes in the chroot, we can simply type "exit" or CTRL+D to exit the chroot. Let's continue on and install the tools necessary to build the ISO.
 
 <code>locale-gen en_US.UTF-8</code><br />
+
+Select your locale by hitting the space bar when it is selected in the menu.
+
 <code>dpkg-reconfigure locales</code><br />
+
+Select your locale and hit ENTER, I am using en_US.UTF-8 as shown in the first command.
+
 <code>apt-get update</code><br />
 <code>apt-get install deboostrap isolinux live-build</code>
 
