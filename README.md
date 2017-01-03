@@ -76,6 +76,8 @@ In the screenshot above, you can see I added some colorful output to the script 
 ### Creating a New Image From Scratch
 This process is exactly the same as the process above, but we need to get the Debian FS, packages, and LINUX kernel before hand. We do so by running the "initialize-build-process.sh" script. DO NOT RUN THIS IF YOU ALREADY HAVE A "chroot" environment with customized changes in it. It WILL BE DESTROYED. Once done, you can go back uup to the "Updating an ISO" section and begin updating LINUX.
 
+Live-Build must be installed on the host OS before runningthis script, as "lb" will be used. You acn install it with the following command: <code>apt-get install live-build</code> as root or ad <code>sudo</code>.
+
 ## ISO Installer
 The installation process can be broken down into a few key steps. These are VERY important to understanding this process. I wrote my installer based off of Tony's Remastersys Installer which uses <code>rsync</code>, which uses the YAD dialog application for user I/O.
 
