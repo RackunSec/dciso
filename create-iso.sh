@@ -18,8 +18,8 @@ myPrintf "Creating development directories in ./binary"
 rm -rf binary # remove old dev files
 mkdir -p binary/{live,isolinux} # create a few directories
 myPrintf "Copying LINUX to the development directory" # copy over LINUX
-cp chroot/boot/vmlinuz-4.4.0-1-686-pae binary/live/vmlinuz
-cp chroot/boot/initrd.img-4.4.0-1-686-pae binary/live/initrd
+cp chroot/boot/vmlinuz-* binary/live/vmlinuz
+cp chroot/boot/initrd.img-* binary/live/initrd
 myPrintf "Making SquashFS filesystem, this will take some time."
 
 # Create the Squash Filesystem
