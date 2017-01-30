@@ -28,7 +28,8 @@ mksquashfs chroot binary/live/filesystem.squashfs -comp xz -e boot
 # Create the actual IS0
 myPrintf "Creating the ISO image, this will take some time."
 if [ -f "binary/live/filesystem.squashfs" ];then # filesystem successfully made
- cp /usr/lib/ISOLINUX/isolinux.bin binary/isolinux/ # ISOLINUX for booting into live ISO
+ # cp /usr/lib/ISOLINUX/isolinux.bin binary/isolinux/ # ISOLINUX for booting into live ISO
+ cp /usr/share/live/build/bootloaders/isolinux/isolinux.bin binary/isolinux/
  cp /usr/lib/syslinux/modules/bios/menu.c32 binary/isolinux/
  cp /usr/lib/syslinux/modules/bios/hdt.c32 binary/isolinux/
  cp /usr/lib/syslinux/modules/bios/ldlinux.c32 binary/isolinux/
