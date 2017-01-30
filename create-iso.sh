@@ -25,6 +25,10 @@ myPrintf "Making SquashFS filesystem, this will take some time."
 # Create the Squash Filesystem
 mksquashfs chroot binary/live/filesystem.squashfs -comp xz -e boot
 
+# copy files from the chroot - 
+mkdir /usr/lib/ISOLINUX
+cp chroot/usr/lib/ISOLINUX/isohd* /usr/lib/ISOLINUX/
+
 # Create the actual IS0
 myPrintf "Creating the ISO image, this will take some time."
 if [ -f "binary/live/filesystem.squashfs" ];then # filesystem successfully made
