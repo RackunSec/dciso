@@ -1,5 +1,5 @@
 # Debian Custom ISO Scripts and Tutorial
-These are scripts that I made to help with the design and customization of a Debian ISO (Primarily WeakerThan Linux). This is a work in progress and will be updated with video tutorials, scripts, and lots of documentation on the process in which I created WT7 Elite.
+These are scripts that I made to help with the design and customization of a Debian ISO (Primarily WeakerThan Linux). This is a work in progress and will be updated with video tutorials, scripts, and lots of documentation on the process in which I created WT7 Elite. As of 01.30.2017 these scripts can now do 32 bit Debian or 64amd Debian compiled kernels with the latest (LTS) stable version, "8.7, Jessie."
 
 <img src="https://weaknetlabs.com/images/dev-img.png"/>
 <i>Screenshot: Weakerthan LINUX 7 "Elite" Alpha, tested in Oracle's VirtualBox.</i>
