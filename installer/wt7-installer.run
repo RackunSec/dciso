@@ -5,7 +5,7 @@
 #
 #  Redesign by Douglas Berdeaux.
 #
-#  Version 1.4 - for WeakNet LINUX 8 (03.2018)
+#  Version 1.5 - for WEAKERTHAN LINUX 8
 #
 
 # Check UID:
@@ -16,7 +16,7 @@ fi
 
 ### CONSTANTS:
 #####=================
-DIALOG=$(which dialog)
+#DIALOG=$(which dialog)
 export WORKINGDIR=/mnt/wt7
 TITLE="--title "
 ENTRY="--inputbox "
@@ -24,8 +24,8 @@ MENU="--menu"
 YESNO="--yesno "
 MSGBOX="--msgbox "
 PASSWORD="--passwordbox "
-TITLETEXT="Weakerthan 7 Live Installer"
-WINDOWICON="/root/.wt7/images/icons/shield-small-icon.png"
+TITLETEXT="WeakNet LINUX 8 Live Installer"
+WINDOWICON="/root/.wt8/images/icons/caffeine-icon-small.png"
 DIALOGMENU="$(which yad) --window-icon=$WINDOWICON --width=500 --height=200 --center"
 DIALOG="$(which yad) --window-icon=$WINDOWICON --center"
 TITLE="--always-print-result --dialog-sep --image=$WINDOWICON --title="
@@ -36,10 +36,10 @@ MENU="--list --column=Pick --column=Info"
 YESNO=" --button=Yes:0 --button=No:1 "
 MSGBOX=" --button=Ok:0 "
 PASSWORD="--entry --hide-text "
-TITLETEXT="Weakerthan Linux 7 Live Installer"
+TITLETEXT="WeakNet Linux 8 Live Installer"
 PARTITIONPROG="gparted"
 SPANFONT="<span font='Ubuntu Condensed 11'>" # Damn, this is a sexy font.
-
+OS="WeakNet LINUX 8"
 ### Functions:
 #####=================
 # This function forks the loading bar message box using "tail":
@@ -62,13 +62,13 @@ quit (){
 #####=================
 ## Start the Installation Process Dialogs:
 $DIALOG $TITLE"$TITLETEXT" --button=Yes:0 --button=No:1 --button=Help:2 \
- --text="$SPANFONT This is the <b>Weakerthan Linux 7 Elite Installer</b>.   \nDo you want to continue?\n\nFor a complete video tutorial hit <b>Help</b> below.</span>  "
+ --text="$SPANFONT This is the <b>$OS</b>.   \nDo you want to continue?\n\nFor a complete video tutorial hit <b>Help</b> below.</span>  "
 ans=$?
 if [ $ans = 1 ]; then
  exit 0
-elif [ $ans = 2 ];then # Awe, snacks! 
+elif [ $ans = 2 ];then # Awe, snacks!
  $DIALOG $TITLE"$TITLETEXT" $MSGBOX $TEXT"$SPANFONT Firefox is now going to start and direct you to the video tutorial.  \nPlease wait.</span>"
- firefox 'https://vimeo.com/144377176' &
+ gksu -u chrome google-chrome 'https://vimeo.com/144377176' &
 fi
 # Create time adjustment file:
 echo "0.0 0 0.0" > /etc/adjtime
@@ -78,7 +78,7 @@ echo "LOCAL" >> /etc/adjtime
 # Fix for gparted being inhibited by udisks-daemon:
 killall -KILL udisks-daemon 2>/dev/null
 
-yad --text="$SPANFONT Let's select a disk to install WT7 to and start up <b>$PARTITIONPROG</b>.\nIn GParted create one Root partition labeled <b>/</b> with the   \nFS format of your choice and one Linux-Swap partition labeled <b>swap</b>.   \nPay attention to the drive names in the \"Partition\" column,\n\n E.g.:<b>sda1</b>, <b>sda2</b>.\n\nWhen done with $PARTITIONPROG, hit the <b>X</b> button and this installation will continue.</span>   " --center --image=$WINDOWICON --window-icon=$WINDOWICON --no-wrap --title="Weakerthan Linux 7 Installer"
+yad --text="$SPANFONT Let's select a disk to install $OS to and start up <b>$PARTITIONPROG</b>.\nIn GParted create one Root partition labeled <b>/</b> with the   \nFS format of your choice and one Linux-Swap partition labeled <b>swap</b>.   \nPay attention to the drive names in the \"Partition\" column,\n\n E.g.:<b>sda1</b>, <b>sda2</b>.\n\nWhen done with $PARTITIONPROG, hit the <b>X</b> button and this installation will continue.</span>   " --center --image=$WINDOWICON --window-icon=$WINDOWICON --no-wrap --title="$OS Installer"
 
 # Choose the drive to install to:
 CKLIVE=$(mount | grep "live" | grep -v "loop" | awk '{print $1}' | awk -F "/" '{print $3}' | sed -e 's/[0-9]//g')
@@ -200,7 +200,7 @@ if [ "$HFSTYPE" = "noformat" ]; then
  HOMETEXT=", $HOMEPART will not be formatted but used for \n/home "
 fi
 ## Confirmation:
-$DIALOG $TITLE"$TITLETEXT" $YESNO $TEXT"$SPANFONT <b>Please <u>verify</u> that this information is correct.</b>\n\nYour WT7 system will be installed on an<b> $FSTYPE</b> formatted <b>$TARGETPART</b> partition<b>$HOMETEXT</b>   \n\nDo you want to continue?</span>"
+$DIALOG $TITLE"$TITLETEXT" $YESNO $TEXT"$SPANFONT <b>Please <u>verify</u> that this information is correct.</b>\n\nYour $OS system will be installed on an<b> $FSTYPE</b> formatted <b>$TARGETPART</b> partition<b>$HOMETEXT</b>   \n\nDo you want to continue?</span>"
 if [ $? != 0 ]; then
  quit;
 fi
@@ -222,7 +222,7 @@ mkdir -p $WORKINGDIR
 sleep 1
 mount /dev/$TARGETPART $WORKINGDIR -o rw
 sleep 1
-tune2fs -c 0 -i 0 /dev/$TARGETPART 
+tune2fs -c 0 -i 0 /dev/$TARGETPART
 rm -rf "$WORKINGDIR/lost+found"
 killBar;
 if [ "$HOMEPART" != "root" ]; then
@@ -295,10 +295,10 @@ killBar;
 # Run  the GRUB2 installer in a new Terminal window:
 progressBar "Installing <b>GRUB2</b> and the <b>kernel</b> on your new system." &
 # This is done this way because of the captive Grub2 apt-get installation
-chroot $WORKINGDIR apt-get update 
+chroot $WORKINGDIR apt-get update
 cat > $WORKINGDIR/tmp/grub-install.sh << GRUB2
 #!/bin/bash
-DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install grub2 grub-pc linux-image-3.16.0-5-amd64 grub-common;
+DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install grub2 grub-pc linux-image-amd64 grub-common;
 GRUB2
 chroot $WORKINGDIR chmod +x /tmp/grub-install.sh
 chroot $WORKINGDIR /tmp/grub-install.sh
@@ -345,13 +345,13 @@ umount $WORKINGDIR
 sleep 1
 killBar;
 # TODO Make sure by checking files/dirs before saying it was a success!
-$DIALOG $TITLE"$TITLETEXT" --button=Yes:0 --button=No:1 --button=Help:2 --text="$SPANFONT Weakerthan Linux 7 \"Elite\" has been\nsuccessfully installed on your system, $TARGETHOSTNAME.   \n\nWould you like to reboot now and test it out?  </span>" --image=$WINDOWICON --window-image=$WINDOWICON;
+$DIALOG $TITLE"$TITLETEXT" --button=Yes:0 --button=No:1 --button=Help:2 --text="$SPANFONT $OS has been\nsuccessfully installed on your system, $TARGETHOSTNAME.   \n\nWould you like to reboot now and test it out?  </span>" --image=$WINDOWICON --window-image=$WINDOWICON;
 ans=$?
 if [ $ans = 0 ]; then
  $DIALOG $TITLE"$TITLETEXT" $MSGBOX $TEXT"$SPANFONT Thank you for choosing <b>WeakNet Laboratories!</b>   \n\n~Douglas Berdeaux\nWeakNetLabs@Gmail.com</span>" --image=$WINDOWICON --window-image=$WINDOWICON;
  sleep 5; # so that you can see.
  reboot;
  exit 0
-elif [ $ans = 1 ];then # Awe, snacks! 
+elif [ $ans = 1 ];then # Awe, snacks!
  $DIALOG $TITLE"$TITLETEXT" $MSGBOX $TEXT"$SPANFONT Thank you for choosing <b>WeakNet Laboratories!</b>   \n\n~Douglas Berdeaux\nWeakNetLabs@Gmail.com</span>" --image=$WINDOWICON --window-image=$WINDOWICON;
 fi
