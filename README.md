@@ -9,12 +9,12 @@ This repository should help anyone who is unfamiliar with the process of creatin
 
 I highly recommend looking at the source code of the scripts. They utilize Bash programming, AWK, SED, and Grep and are written with lots of comments. This should help anyone unfamiliar with the process of creating a live ISO, or even installing an ISO to a HDD. It's what I did, anyways. I peered into the source of Tony's Remastersys Project. Tony understood this process very well and his scripts to automate it were what I used for years until his project was ditched. The processes that he started have changed with the new Debian and GNU LINUX kernel updates. So, I built my installer and ISO creation scripts from scratch using Tony's work as a reference point.
 
-## Build ISO From Scratch
+### Build ISO From Scratch
 The first part, is simply customizing the Debian ISO, in our case the Weakerthan LINUX flavor. The process is that same for starting from scratch, but you need to run the command:
 ```
 root@build-a-deb:~# initialize-build-process.sh
 ``` 
-This will install all of the necessary tools to build the ISO and download the Debian LINUX system including packages and system configurations using the `lb` live-build Debian tool. I actually don't recommend doing this, but if you really want to start from scratch, do it this way instead of updating an ISO.
+This will install all of the necessary tools to build the ISO and download the Debian LINUX system including packages and system configurations using the `lb` live-build Debian tool. Once this builds the ISO, we can then use the following steps in the "Updating an ISO" section to make our customizations before creating our own ISO.
 
 Next, we can update that ISO to whatever version we want using the `/etc/apt/sources.d/base.list` file and updating the version to match our target version.
 
