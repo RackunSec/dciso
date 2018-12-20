@@ -16,7 +16,13 @@ root@build-a-deb:~# initialize-build-process.sh
 ``` 
 This will install all of the necessary tools to build the ISO and download the Debian LINUX system including packages and system configurations using the `lb` live-build Debian tool. Once this builds the ISO, we can then use the following steps in the "Updating an ISO" section to make our customizations before creating our own ISO.
 
-Next, we can update that ISO to whatever version we want using the `/etc/apt/sources.d/base.list` file and updating the version to match our target version.
+Next, we can update that ISO to whatever version we want using the `/etc/apt/sources.d/base.list` file and updating the version to match our target version. For instance, I just updated "Stretch" to "Buster" using the following `sed`-like command in `vim`:
+
+```
+:%s/stretch/buster/g
+```
+
+which updated the entire sources.list script.
 
 ### Updating an ISO
 This process begins with a pre-existing ISO that you would like to make changes to. To start, we need an installation of Linux with lots of space and some tools installed. I figured out how to do this because, halfway through the development process of WT 7 Alpha, I lost my work. There are a few steps involved with getting a chroot envionment from an ISO and they are:
