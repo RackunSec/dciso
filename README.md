@@ -33,10 +33,10 @@ Select your locale by hitting the space bar when it is selected in the menu.
 
 <code>dpkg-reconfigure locales</code><br />
 
-Select your locale and hit ENTER, I am using en_US.UTF-8 as shown in the first command.
+Select your locale and hit ENTER, I am using en_US.UTF-8 as shown in the first command. I also set this as the default locale for the system.
 
 <code>apt-get update</code><br />
-<code>apt-get install deboostrap isolinux live-build</code>
+<code>apt-get install debootstrap isolinux live-build</code>
 
 Copy the "in-chroot-scripts" directory in the "./chroot" directory so that we can access them once we have chrooted. Before we "chroot" though, we need to mount /dev/, /dev/pts, /proc, and /sys - bound to the actual host-mounted devices. I do this in the "chroot-script.sh" script. So, after runing the script, you will be chrooted in the new environment.
 
