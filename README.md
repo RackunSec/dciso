@@ -14,7 +14,7 @@ The first part, is simply customizing the Debian ISO, in our case the Weakerthan
 
 ### Updating an ISO
 This process begins with a pre-existing ISO that you would like to make changes to. To start, we need an installation of Linux with lots of space and some tools installed. I figured out how to do this because, halfway through the development process of WT 7 Alpha, I lost my work. There are a few steps involved with getting a chroot envionment from an ISO and they are:
-* Get the ISO
+* Get the ISO (This MUST be a live ISO, not an installer or netinstall ISO - because we need a squashfs)
 * Extract the filesystem - the root directory with /mnt, /dev, /home, /proc, /sys, /var, /etc, etc in it. This is compressed into a SquashFS in Weakerthan LINUX, but not all LINUXs. Mount the ISO as a loop device and extract the filesystem.squashfs file.
   * <code>mkdir ./mnt</code> 
   * <code>mount -o loop linux.iso ./mnt</code>
