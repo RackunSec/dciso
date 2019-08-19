@@ -1,8 +1,6 @@
 #!/bin/bash
-## WT7 Mounting script
-# Weakerthan Linux 7 ELITE
 # This mounts the devices in the chroot
-# Make sure you unmount them with the wt7-umounts.sh!
+# Make sure you unmount them with in-chroot-unmounts.sh !!
 mount none -t proc /proc
 mount none -t sysfs /sys
 mount none -t devpts /dev/pts
