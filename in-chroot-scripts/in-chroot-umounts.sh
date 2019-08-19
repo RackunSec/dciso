@@ -1,6 +1,4 @@
 #!/bin/bash
-## WT7 Cleanup Script
-# Weakerthan Linux 7 ELITE
 # Run this command after exiting the chroot to build
 cp -Rvvv /var/log/postgresql /tmp/
 rm /var/log/*
