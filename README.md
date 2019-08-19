@@ -15,8 +15,7 @@ This will install all of the necessary tools to build the ISO and download the D
 
 ### SYSLINUX
 We will be using one of the SYSLINUX boot loaders, ISOLINUX, to boot the live image. <br /><br />
-<img src="https://weaknetlabs.com/images/isolinux-screenshot.png" /><br />
-<i>Screenshot: The cutomized ISOLINUX splash screen for boot options.</i><br /><br />
+
 ISOLINUX is part of the SYSLINUX project and is the boot loader that is used for CDROM/live disks and ISOs. We have already installed the ISOLINUX package from the Debian repositories in one of the <code>apt</code> commands above. This will install a few files onto our host OS that we need to copy into our "./binary" directory and that is done with our "./create-iso.sh" shell script like so:<br />
 
 Please see: https://github.com/weaknetlabs/debian-custom-iso-scripts/blob/master/create-iso.sh lines 29-37. The markdown is not allowing them to be pasted correctly here.
