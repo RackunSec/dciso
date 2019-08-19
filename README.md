@@ -24,6 +24,14 @@ Now, we can change root (chroot) into our new ```./chroot``` directory and run t
 root@demon-dev:~# ./chroot-start.sh
 root@demon-dev:/# /demon-dev/in-chroot-mounts.sh # mounts all necessary OS mount points
 root@demon-dev:/# dhclient -v  # in case network did not already happen
+```
+Next, we **must** set a locale.
+```
+root@demon-dev:/# export LANGUAGE=en_US.UTF-8
+root@demon-dev:/# export LANG=en_US.UTF-8
+root@demon-dev:/# export LC_ALL=en_US.UTF-8
+root@demon-dev:/# locale-gen en_US.UTF-8
+root@demon-dev:/# dpkg-reconfigure locales
 root@demon-dev:/# apt update # if this fails, you need to run the previous script, "in-chroot-mounts.sh"
 ```
 Finally, now that we ar ein the "chrooted" environment, we can make all of our updates.
