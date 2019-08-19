@@ -33,8 +33,9 @@ root@demon-dev:/# export LC_ALL=en_US.UTF-8
 root@demon-dev:/# locale-gen en_US.UTF-8
 root@demon-dev:/# dpkg-reconfigure locales
 root@demon-dev:/# apt update # if this fails, you need to run the previous script, "in-chroot-mounts.sh"
+root@demon-dev:/# dbus-uuidgen > /var/lib/dbus/machine-id
 ```
-Finally, now that we ar ein the "chrooted" environment, we can make all of our updates.
+Finally, now that we are in the "chrooted" environment, we can make all of our updates.
 
 ### SYSLINUX
 We will be using one of the SYSLINUX boot loaders, ISOLINUX, to boot the live image. <br /><br />
