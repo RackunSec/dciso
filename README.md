@@ -37,6 +37,12 @@ root@demon-dev:/# dbus-uuidgen > /var/lib/dbus/machine-id
 ```
 Finally, now that we are in the "chrooted" environment, we can make all of our updates.
 
+### X11 in Chroot
+To start X, the machine requires a window manager, dbus connector, and X initialization applications. In the example below, I install XFCE4 - You can choose what ever you wish, just **ensure that you install ```dbus-x11```**. After that, the ```chroot-start.sh``` and ```in-chroot-mounts.sh``` scripts will handle the rest of the process.
+```
+root@demon-dev:/# apt install --no-install-recommends xcfe4 dbus-x11 xorg xinit
+```
+
 ### SYSLINUX
 We will be using one of the SYSLINUX boot loaders, ISOLINUX, to boot the live image. <br /><br />
 
