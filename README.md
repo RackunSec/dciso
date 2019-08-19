@@ -22,8 +22,11 @@ root@demon-dev:~# cp in-chroot-scripts/* chroot/demon-dev
 Now, we can change root (chroot) into our new ```./chroot``` directory and run the ```/demon-dev/in-chroot-mounts.sh``` script to prepare our environment for customizations. To begin, we simply need to run the following command to change root into the ```./chroot``` directory and once done, run the ```/demon-dev/in-chroot-mounts.sh``` script.
 ```
 root@demon-dev:~# ./chroot-start.sh
-root@demon-dev:/# /demon-dev/in-chroot-mounts.sh
+root@demon-dev:/# /demon-dev/in-chroot-mounts.sh # mounts all necessary OS mount points
+root@demon-dev:/# dhclient -v  # in case network did not already happen
+root@demon-dev:/# apt update # if this fails, you need to run the previous script, "in-chroot-mounts.sh"
 ```
+Finally, now that we ar ein the "chrooted" environment, we can make all of our updates.
 
 ### SYSLINUX
 We will be using one of the SYSLINUX boot loaders, ISOLINUX, to boot the live image. <br /><br />
