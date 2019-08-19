@@ -1,5 +1,5 @@
 #!/bin/bash
-#
+# Specify the distribution code name (e.g.: buster, sid, stretch, etc)
 # This script will setup the chrooted env to begin customization and should ONLY be
 #  ran once at the beginning of the entire development process
 if [ -d "./chroot" ]; then
@@ -8,15 +8,13 @@ if [ -d "./chroot" ]; then
  read ans;
  if [ "$ans" = "y" ]; then
   rm -rf chroot
-  lb clean # cleans out ./chroot
-  lb config
-  lb build
  else
   printf "Phew! That was a close one!\n";
  fi
-else
- printf "Creating \"chroot\" workspace\n";
- lb clean # cleans out ./chroot
- lb config
- lb build
 fi
+# Start the build process:
+printf "Creating \"chroot\" workspace\n";
+lb clean # cleans out ./chroot
+lb config --distribution $1
+lb build
+
