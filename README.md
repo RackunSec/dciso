@@ -45,6 +45,10 @@ Next, we **must** install a kernel and a couple other utilities:
 ```
 root@demon-dev:/# apt install linux-image-amd64 live-boot systemd-sysv
 ```
+We can now set our **root** password,
+```
+root@demon-dev:~# passwd root
+```
 Finally, now that we are in the "chrooted" environment, we can make all of our updates.
 
 ### X11 in Chroot
