@@ -16,7 +16,8 @@ myPrintf () { # cut back on code rewrite
 ###
 ### Set up working environment (./binary)
 myPrintf "Creating development directories in ./binary ... "
-rm -rf binary # remove old dev files
+rm -rf image 2>/dev/null # remove old dev files
+rm -rf scratch 2>/dev/null # remove old versions
 mkdir -p {image/live,scratch}
 
 ###
