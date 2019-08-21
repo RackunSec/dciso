@@ -75,7 +75,7 @@ cat /usr/lib/grub/i386-pc/cdboot.img \
 ###
 ### Finally, Generate the ISO Image file:
 xorriso \
-	-as mfisofs \
+	-as mkisofs \
 	-iso-level 3 \
 	-full-iso9660-filenames \
 	-volid "DEMON_CUSTOM" \
