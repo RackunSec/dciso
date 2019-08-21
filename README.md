@@ -1,11 +1,6 @@
 # Debian Custom ISO Scripts and Tutorial
 These are scripts that I made to help with the design and customization of a Debian ISO (Primarily [DEMON LINUX](https://demonlinux.com/)). These scripts have recently been updated to accomodate newer distributions of Debian.
 
-## Custom Scripts
-This repository should help anyone who is unfamiliar with the process of creating a customized ISO but this is NO MEANS a full tutorial on the subject. This is just how I do it and I have thoroughly tested every step, but in the world of open-source, small changes can destroy a house of cards, so to speak. Please make sure you report errors with logs or terminal output so I can better help troubleshoot any issues that arise during your ISO building. I am making this because I honestly could not find solid, working, up-to-date tutorials anywhere I looked. I could not get Debian's "live-build" working preoperly for the life of me and it just seemed very convoluted. This tutorial and these scripts were designed to work with Debian Stretch. We will be designing our own custom 32bit Debian ISO with the SYSLINUX boot loader. 
-
-I highly recommend looking at the source code of the scripts. They utilize Bash programming, AWK, SED, and Grep and are written with lots of comments. This should help anyone unfamiliar with the process of creating a live ISO, or even installing an ISO to a HDD. First, we will need to initialize the project.
-
 ### Dependencies
 In your development OS, we need a few tools installed to build out our new Custom Debian. You can install these easily using the following command,
 ```
@@ -49,6 +44,20 @@ We can now set our **root** password,
 ```
 root@demon-dev:~# passwd root
 ```
+We also must edit the (included) grub/grub.cfg file:
+```
+search --set=root --file /DEMON_CUSTOM
+
+insmod all_video
+
+set default="0"
+set timeout=30
+
+menuentry "Demon Linux (x64)" {
+    linux /vmlinuz boot=live quiet nomodeset
+    initrd /initrd
+}
+```
 Finally, now that we are in the "chrooted" environment, we can make all of our updates.
 
 ### X11 in Chroot
@@ -56,29 +65,6 @@ To start X, the machine requires a window manager, dbus connector, and X initial
 ```
 root@demon-dev:/# apt install --no-install-recommends xcfe4 dbus-x11 xorg xinit
 ```
-### Generating the ISO Image
-This process uses the XORISO utility. Simply run the "./create-iso.sh" program and the image will be created with a timestamp in the file name. Also, I added a call to <code>md5sum</code> for generating an md5 integrity checksum file for your users to check if their download was actually successful. I would recommend using a VMWare Shared directory to copy the ISO file from the working VM to the Host OS for testing.
-
-In the screenshot above, you can see I added some colorful output to the script with ANSI colors and Unicode characters. This is simply to help determine what output is from my script and what is from the external operations of the script. This process can be broken down into a few steps:
-
-* Create "./binary" a working place for our files.
-* Copy the kernel to the ./binary directory (initrd and vmlinuz from ./chroot).
-* Create the SquashFS filesystem file from ./chroot
-* Copy all ISOLINUX files from the hosts installation of the Debian isolinux package into the ./binary/isolinux directory.
-* Use the XorrISO utility to generate the ISO file.
-* Use MD5Sum to generate the md5 file.
-
-## ISO Installer
-The installation process can be broken down into a few key steps. These are VERY important to understanding this process. I wrote my installer based off of Tony's Remastersys Installer which uses <code>rsync</code>, which uses the YAD dialog application for user I/O.
-
-* Use GParted to create a root partition "/" and LINUX-swap partition "swap"
-* Get timezone and hostname of new system from user
-* Copy everything in the root of the live filesystem into out new root partition usinf rsync, excluding the following directories: wt7, lib/live, live, cdrom, mnt, proc, run, sys, media
-* Create some empty directories for the Debian OS: proc, mnt, run, sys, media/cdrom
-* Remove some live-OS hooks and return "update-initramfs" back to it's original
-* Download and install GRUB and the Linux Kernel
-* Set up the new hostname
-* Clean up the filesystem logs, and package caches andf reboot
 
 ## References
 SquashFS-Tools (Debian Package): https://packages.debian.org/search?keywords=squashfs-tools<br />
@@ -87,3 +73,4 @@ Rsync: https://en.wikipedia.org/wiki/Rsync<br />
 XorrISO: https://www.gnu.org/software/xorriso/<br />
 Full UNICODE chart for scripting: http://www.fileformat.info/info/charset/UTF-8/list.htm?start=8192<br />
 SYSLINUX: http://www.syslinux.org/wiki/index.php?title=Menu
+Will Haley: https://willhaley.com/blog/custom-debian-live-environment/
