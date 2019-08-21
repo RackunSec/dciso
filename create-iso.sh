@@ -22,7 +22,7 @@ mkdir -p {image/live,scratch}
 ###
 ### Create SquashFS:
 myPrintf "Making SquashFS filesystem, this will take some time ... "
-#mksquashfs chroot image/live/filesystem.squashfs -comp xz -e boot
+mksquashfs chroot image/live/filesystem.squashfs -comp xz -e boot
 
 ###
 ### Copy the VMLINUZ and INITRD into the ./binary directory:
