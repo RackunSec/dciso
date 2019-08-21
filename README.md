@@ -6,6 +6,12 @@ This repository should help anyone who is unfamiliar with the process of creatin
 
 I highly recommend looking at the source code of the scripts. They utilize Bash programming, AWK, SED, and Grep and are written with lots of comments. This should help anyone unfamiliar with the process of creating a live ISO, or even installing an ISO to a HDD. First, we will need to initialize the project.
 
+### Dependencies
+In your development OS, we need a few tools installed to build out our new Custom Debian. You can install these easily using the following command,
+```
+root@demon:~# apt install debootstrap squashfs-tools xorriso grub-pc-bin grub-efi-amdd64-bin mtools
+```
+
 ### Initialize the Project
 The first part, is simply customizing the Debian ISO, in our case the Weakerthan LINUX flavor. The process is that same for starting from scratch, but you need to run the command:
 ```
@@ -35,6 +41,10 @@ root@demon-dev:/# dpkg-reconfigure locales
 root@demon-dev:/# apt update # if this fails, you need to run the previous script, "in-chroot-mounts.sh"
 root@demon-dev:/# dbus-uuidgen > /var/lib/dbus/machine-id
 ```
+Next, we **must** install a kernel and a couple other utilities:
+```
+root@demon-dev:/# apt install linux-image-amd64 live-boot systemd-sysv
+```
 Finally, now that we are in the "chrooted" environment, we can make all of our updates.
 
 ### X11 in Chroot
@@ -42,20 +52,6 @@ To start X, the machine requires a window manager, dbus connector, and X initial
 ```
 root@demon-dev:/# apt install --no-install-recommends xcfe4 dbus-x11 xorg xinit
 ```
-
-### SYSLINUX
-We will be using one of the SYSLINUX boot loaders, ISOLINUX, to boot the live image. <br /><br />
-
-ISOLINUX is part of the SYSLINUX project and is the boot loader that is used for CDROM/live disks and ISOs. We have already installed the ISOLINUX package from the Debian repositories in one of the <code>apt</code> commands above. This will install a few files onto our host OS that we need to copy into our "./binary" directory and that is done with our "./create-iso.sh" shell script like so:<br />
-
-Please see: https://github.com/weaknetlabs/debian-custom-iso-scripts/blob/master/create-iso.sh lines 29-37. The markdown is not allowing them to be pasted correctly here.
-
-SYSLINUX is configured using the "./isolinux/" directory files. The first file to load is the "./isolinux/isolinux.cfg" file which makes an <code>include</code> call to "./isolinux/menu.cfg" And sets the user interface using the <code>ui</code> setting, to "vesamenu.c32". This is a "com32" file. "com32" files are binaries either coded in C or Assembly, which simply loads the user interface for the ISOLINUX boot loader as per our specs that we have set in the configuration files, "./isolinux/isolinux.cfg" and "./isolinux/menu.cfg" These files include which boot loader options to include (booting live or live failsafe in our case), spacial configuration settings, screen resolution, background image and even color settings for the text. 
-<br />
-Take a look at the "./isolinux/menu.cfg" file, you will notice how simple the syntax is for setting upp the boot loader interface. There are a few special things to note about cutomizing this screen with the sytnax found in those files:<br />
-* The "./isolinux/splash.png" file NEEDS to be the same exact size as that specified by the <code>menu resolution</code> setting
-* The color codes are in hexadecimal format as: #AARRGGBB where "AA" is the opacity of the color on the screen.
-
 ### Generating the ISO Image
 This process uses the XORISO utility. Simply run the "./create-iso.sh" program and the image will be created with a timestamp in the file name. Also, I added a call to <code>md5sum</code> for generating an md5 integrity checksum file for your users to check if their download was actually successful. I would recommend using a VMWare Shared directory to copy the ISO file from the working VM to the Host OS for testing.
 
