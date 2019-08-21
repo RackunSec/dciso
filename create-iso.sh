@@ -44,7 +44,7 @@ touch image/DEMON_CUSTOM
 grub-mkstandalone \
 	--format=x86_64-efi \
 	--output=scratch/bootx64.efi \
-	--locales="en_US.UTF-8" \
+	--locales="" \
 	--fonts="" \
 	"boot/grub/grub.cfg=scratch/grub.cfg"
 
@@ -62,7 +62,7 @@ grub-mkstandalone \
 	--output=scratch/core.img \
 	--install-modules="linux normal iso9660 biosdisk memdisk search tar ls" \
 	--modules="linux normal iso9660 biosdisk search" \
-	--locales="en_US.UTF-8" \
+	--locales="" \
 	--fonts="" \
 	"boot/grub/grub.cfg=scratch/grub.cfg"
 
