@@ -4,7 +4,7 @@ These are scripts that I made to help with the design and customization of a Deb
 ### Dependencies
 In your development OS, we need a few tools installed to build out our new Custom Debian. You can install these easily using the following command,
 ```
-root@demon:~# apt install debootstrap squashfs-tools xorriso grub-pc-bin grub-efi-amd64-bin mtools
+root@demon:~# apt install debootstrap squashfs-tools xorriso grub-pc-bin grub-efi-amd64-bin mtools live-build
 ```
 
 ### Initialize the Project
