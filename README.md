@@ -35,6 +35,8 @@ root@demon-dev:/# locale-gen en_US.UTF-8
 root@demon-dev:/# dpkg-reconfigure locales
 root@demon-dev:/# apt update # if this fails, you need to run the previous script, "in-chroot-mounts.sh"
 root@demon-dev:/# dbus-uuidgen > /var/lib/dbus/machine-id
+# if the locales failed previously, try again now that we have a new uid:
+root@demon-dev:/# dpkg-reconfigure locales
 ```
 Next, we **must** install a kernel and a couple other utilities:
 ```
