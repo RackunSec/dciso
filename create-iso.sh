@@ -7,6 +7,16 @@
 yc='\033[3;33m' # yc = "yellow color"
 nc='\033[0m' # nc = "no color"
 wc='\033[1;37m' # white color
+iso_name="generic.iso"
+
+# arg 1 is the name of the ISO
+if [[ "$1" == "" ]]
+then
+	printf "Please specify an ISO name.\n"
+	exit 1337
+else
+	iso_name=$1
+fi
 
 myPrintf () { # cut back on code rewrite
  #printf "$wc\xe2\x86\xaf $yc$1$nc\n";
@@ -92,7 +102,7 @@ xorriso \
 	 -e EFI/efiboot.img \
 	 -no-emul-boot \
 	 -append_partition 2 0xef scratch/efiboot.img \
-	 -output "demon_custom.iso" \
+	 -output "$iso_name" \
 	 -graft-points \
 	   "image" \
 	   /boot/grub/bios.img=scratch/bios.img \
