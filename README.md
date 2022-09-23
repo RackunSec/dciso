@@ -55,6 +55,11 @@ We can now set our **root** password,
 ```bash
 passwd root
 ```
+[OPTIONAL] We may need to install some things in the chroot that we will use to build our ISO environment.
+```bash
+apt install vim ftp open-vm-tools curl git python3-pip
+```
+
 We also must edit the (included) grub/grub.cfg file:
 ```grub
 search --set=root --file /DEMON_CUSTOM
