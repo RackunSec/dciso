@@ -11,7 +11,7 @@ Just ensure that when you boot your build/host OS, you are dropped to a login pr
 ### Dependencies
 In your development OS, we need a few tools installed to build out our new Custom Debian. You can install these easily using the following command,
 ```bash
-apt install debootstrap squashfs-tools xorriso grub-pc-bin grub-efi-amd64-bin mtools live-build git vim
+apt install debootstrap squashfs-tools xorriso grub-pc-bin grub-efi-amd64-bin mtools live-build git vim curl
 git clone https://github.com/RackunSec/debian-custom-iso-scripts
 cd debian-custom-iso-scripts
 ```
