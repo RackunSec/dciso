@@ -4,7 +4,7 @@
 #  ran once at the beginning of the entire development process
 if [ "$1" == "" ]
 then
- printf "Please give me an argument Debian version, e.g.: buster, squeeze, wheezy\n"
+ printf "Please give me an argument Debian version, e.g.: wheezy, jessie, stretch, buster, bullseye\n"
  exit
 fi
 if [ -d "./chroot" ]; then
