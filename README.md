@@ -34,6 +34,7 @@ Now, we can change root (chroot) into our new ```./chroot``` directory and run t
 ./chroot-start.sh
 /demon-dev/in-chroot-mounts.sh # mounts all necessary OS mount points
 dhclient -v  # in case network did not already happen
+apt update
 ```
 Next, we **must** set a locale.
 ```bash
@@ -50,6 +51,7 @@ dpkg-reconfigure locales
 Next, we **must** install a kernel and a couple other utilities:
 ```bash
 apt install linux-image-amd64 live-boot systemd-sysv
+update-initramfs -u
 ```
 We can now set our **root** password,
 ```bash
