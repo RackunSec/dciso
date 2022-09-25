@@ -13,4 +13,4 @@ dbus-uuidgen > /var/lib/dbus/machine-id
 apt update
 apt install linux-image-amd64 live-boot systemd-sysv
 update-initramfs -u
-apt install vim ftp open-vm-tools curl git python3-pip xfce4 tilix python3-pip python3 gedit
+apt install vim ftp open-vm-tools curl git python3-pip xfce4 tilix python3-pip python3 gedit dbus-x11 nmap 
