@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Run this script only once in the chrooted environment
 ##
+dhclient -v # grab an IP address
 export LANGUAGE=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
