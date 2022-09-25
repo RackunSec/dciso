@@ -22,4 +22,7 @@ printf "Creating \"chroot\" workspace\n";
 lb clean # cleans out ./chroot
 lb config --distribution $1
 lb build
-
+## This will create a temporary dev area for required scripts for building the chroot
+mkdir chroot/tmp-dev
+cp in-chroot-scripts/* chroot/tmp-dev
+chmod +x chroot/tmp-dev/*.sh
