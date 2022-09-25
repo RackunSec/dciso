@@ -83,6 +83,18 @@ To start X, the machine requires a window manager, dbus connector, and X initial
 ```
 apt install --no-install-recommends xfce4 dbus-x11 xorg xinit
 ```
+### Booting Live as Root User + XFCE4
+To have your live ISO boot directly into the desktop environment as the root user, simply add the following contents to `/etc/rc.local` (you may have to create this file). 
+```bash
+#!/bin/bash
+su -c "bash -c \"cd /root && startx\""
+exit 0
+```
+Then make the file executable with the following command:
+```bash
+chmod +x /etc/rc.local
+```
+This will log in as root, but the desktop wallpaper will be changed to the default. To fix this ... 
 
 ## References
 SquashFS-Tools (Debian Package): https://packages.debian.org/search?keywords=squashfs-tools<br />
