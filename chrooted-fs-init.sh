@@ -9,4 +9,8 @@ dpkg-reconfigure locales
 apt update # if this fails, you need to run the previous script, "in-chroot-mounts.sh"
 dbus-uuidgen > /var/lib/dbus/machine-id
 # if the locales failed previously, try again now that we have a new uid:
-dpkg-reconfigure locales
+##dpkg-reconfigure locales ## DEBUG
+apt update
+apt install linux-image-amd64 live-boot systemd-sysv
+update-initramfs -u
+apt install vim ftp open-vm-tools curl git python3-pip xfce4 tilix python3-pip python3 gedit
