@@ -94,8 +94,6 @@ Then make the file executable with the following command:
 ```bash
 chmod +x /etc/rc.local
 ```
-This will log in as root, but the desktop wallpaper will be changed to the default. To fix this ... 
-
 # Notes on Live-Build vs. Bullseye (WIP)
 This is a collection of notes that I made while trying to decipher what happened to `live-build` since Buster. It no longer acts the same way and seems no longer applicable to my project. First of all, I made this an executable script as `/usr/bin/lb-config.sh`: 
 
@@ -119,6 +117,13 @@ This script builds the initial chroot, but will fail when starting `x11` due to 
 
 **note**: Any time we make chnages or run `lb clean` etc, we must run `lb config` again before running `lb build`.
 **note**: I call my build directory `demon-dev` for Demon Linux building. This is where I run the `lb-config.sh`, `lb config`, `lb build` commands.
+**note**: Add package list before building by making the file: `config/package-lists/desktop.list.chroot` (because that makes sense to `live-build` devs, smh). This is a line-by-line list of packages to add to the chroot, such as:
+```
+dbus-x11
+xfce4
+tilix
+papirus-icon-theme
+```
 
 ### X11 Issues
 1. rc.local is ignored at boot and x11 starts with `live-user`
