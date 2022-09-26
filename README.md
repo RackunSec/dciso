@@ -1,6 +1,29 @@
 # Debian Custom ISO Builder
 These are scripts that I made to help with the design and customization of a Debian ISO (Primarily [DEMON LINUX](https://demonlinux.com/)). These scripts have recently been updated to accomodate newer distributions of Debian: Bullseye. The previous version of these scripts relied on [Live-Build](https://live-team.pages.debian.net/live-manual/html/live-manual/index.en.html) which is no longer a necessary tool and has been removed due to contrived user complexity. 
 
+```
+   _____     ______     __     ______     ______
+  /\  __-.  /\  ___\   /\ \   /\  ___\   /\  __ \
+  \ \ \/\ \ \ \ \____  \ \ \  \ \___  \  \ \ \/\ \
+   \ \____-  \ \_____\  \ \_\  \/\_____\  \ \_____\
+    \/____/   \/_____/   \/_/   \/_____/   \/_____/
+     Debian Custom ISO Utility
+     (c) GNU 2022 - @RackunSec
+
+Usage: ./dciso (args)
+
+Arguments:
+  build (RELEASE) - Build the chroot directory.
+  clean - Destroys the chroot directory.
+  start - Starts a chroot session in ./chroot.
+  end - Ends the current chroot session from ./chroot
+  init - Performs first time set of of the chroot, should be ran within chroot.
+  in-start - Sets up the current chroot session, should be ran within chroot.
+  in-end - ends the current chroot session, should be ran within chroot.
+  geniso (ISO NAME).iso - Will create an ISO file from ./chroot
+
+```
+
 ## Host OS Setup
 Begin by creating a fresh VM of the latest version of Debian. Do not install any desktop GUI environments if you plan on developing a desktop environment in your ISO. This will be our "host" system. In your host OS, we need a few tools installed to build out our new custom Debian. You can install these easily using the following command,
 ```bash
