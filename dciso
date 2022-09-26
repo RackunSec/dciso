@@ -1,0 +1,145 @@
+#!/usr/bin/env bash
+## Debian Custom ISO Initialization of Chroot
+## 2022 @RackunSec
+
+## Define some colors:
+BOLD="\e[1m"
+RED="\e[91m"
+RST="\e[0m"
+YEL="\e[93m"
+
+cat << Banner
+   _____     ______     __     ______     ______
+  /\  __-.  /\  ___\   /\ \   /\  ___\   /\  __ \\
+  \ \ \/\ \ \ \ \____  \ \ \  \ \___  \  \ \ \/\ \\
+   \ \____-  \ \_____\  \ \_\  \/\_____\  \ \_____\\
+    \/____/   \/_____/   \/_/   \/_____/   \/_____/
+Banner
+printf "     ${YEL}Debian Custom ISO Utility${RST}\n"
+printf "     (c) GNU 2022 - @RackunSec\n"
+
+## Define Usage of app:
+dciso_usage () {
+  printf "\nUsage: ./dciso (args)\n"
+  printf "\nArguments:\n"
+  printf "  ${BOLD}${RED}build ${YEL}(RELEASE)${RST} - Build the chroot directory.\n"
+  printf "  ${BOLD}${RED}clean${RST} - Destroys the chroot directory.\n"
+  printf "  ${BOLD}${RED}start${RST} - Starts a chroot session in ./chroot.\n"
+  printf "  ${BOLD}${RED}end${RST} - Ends the current chroot session from ./chroot\n"
+  printf "  ${BOLD}${RED}init${RST} - Performs first time set of of the chroot, should be ran within chroot.\n"
+  printf "  ${BOLD}${RED}in-start${RST} - Sets up the current chroot session, should be ran within chroot.\n"
+  printf "  ${BOLD}${RED}in-end${RST} - ends the current chroot session, should be ran within chroot.\n"
+  printf "  ${BOLD}${RED}geniso ${YEL}(ISO NAME).iso${RST} - Will create an ISO file from ./chroot\n\n"
+  exit 1337
+}
+
+## Get network connection up:
+dciso_net () {
+  dhclient -v
+}
+
+## Workflow of app:
+if [[ $# -eq 1 ]] ## most commands are 1 arg:
+then
+  if [[ "$1" == "start" ]] ## start the chroot
+  then
+    printf "[i] Mounting devices into chroot, when done, you will be chrooted... \n"
+    mount --bind /dev ./chroot/dev/
+    mount --bind /dev/pts ./chroot/dev/pts/
+    mount --bind /dev/shm ./chroot/dev/shm # REQUIRED
+    mount --bind /proc ./chroot/proc/
+    mount --bind /sys  ./chroot/sys/
+    mount --bind /run ./chroot/run # for x11 mouse and keyboard functioning!
+    chroot ./chroot
+  elif [[ "$1" == "end" ]]
+  then
+    printf "[i] Umounting devices in ./chroot ... \n"
+    umount {chroot/dev/pts,chroot/dev,chroot/sys,chroot/proc,chroot/run}
+    printf "[i] Completed. I recommend that you reboot.\n"
+  elif [[ "$1" == "clean" ]]
+  then
+    printf "${RED}${BOLD} WARNING: THIS CANNOT BE UNDONE!\n${RST}"
+    printf "[?] Do you really want to remove the ./chroot directory? [y/N] "
+    read ans
+    if [[ "$ans" == "y" ]]
+    then
+      rm -rf chroot
+      printf "[i] Done. Re-run ./dciso build (RELEASE) to make a new chroot environment.\n"
+      exit
+    fi
+  elif [[ "$1" == "init" ]]
+  then
+    printf "[i] Initialization process started.\n"
+    dciso_net
+    ## install initial depends:
+    printf "[i] Installing initial dependencies ... \n"
+    apt update
+    apt install locales systemd-sysv live-boot -y
+    ## configure initial depends:
+    printf "[i] Configuring initial dependencies ... \n"
+    export LANGUAGE=en_US.UTF-8
+    export LANG=en_US.UTF-8
+    export LC_ALL=en_US.UTF-8
+    locale-gen en_US.UTF-8
+    dpkg-reconfigure locales
+    printf "[i] Generating a new system UUID ... \n"
+    dbus-uuidgen > /var/lib/dbus/machine-id
+    printf "[i] Installing a new kernel ... \n"
+    apt install -y linux-image-amd64 live-boot systemd-sysv
+    update-initramfs -u
+    printf "[i] Installing customization apps ... \n"
+    apt install -y vim ftp open-vm-* curl git xfce4 tilix python3-pip python3 gedit dbus-x11 nmap unzip papirus-icon-theme python3-venv
+  elif [[ "$1" == "in-start" ]]
+  then
+    dciso_net ## get an IP
+    mount none -t proc /proc
+    mount none -t sysfs /sys
+    mount none -t devpts /dev/pts
+    printf "[i] Chroot started: [READY]\n"
+  elif [[ "$1" == "in-end" ]]
+  then
+    cp -Rvvv /var/log/postgresql /tmp/
+    rm /var/log/*
+    rm /var/log/*/*
+    rm /var/log/*/*/*
+    cp -Rvvv /tmp/postgresql /var/log/postgresql
+    echo "" > /root/.xsession-errors
+    ## get rid of apt-get stuff
+    apt-get clean
+    rm /var/lib/apt/lists/ftp*
+    rm /var/lib/apt/lists/http*
+    ## get rid of stuff from home
+    rm /root/.bash_history
+    rm /root/.ssh/known_hosts
+    rm -rf /root/Downloads/*
+    rm -rf /root/Desktop/*
+    rm -rf /root/Videos/*
+    rm /var/lib/dbus/machine-id && rm -rf /tmp/*
+    umount /proc /sys /dev/pts /dev
+    exit;
+  else
+    if [ "$1" != "build" ]
+    then
+      printf "\n[?] I don't know what ${1} is ... \n"
+      dciso_usage
+    else
+      printf "\n[?] Build what? I need a release name (buster, bullseye, etc).\n"
+      dciso_usage
+    fi
+  fi
+elif [[ $# -eq 2 ]]
+then
+  if [[ "$1" == "build" ]]
+  then
+    printf "[i] Building chroot directory with ${2} ... \n"
+    debootstrap --arch=amd64 ${2} chroot
+    printf "[i] Copying tools into ./chroot\n"
+    mkdir chroot/etc/live-tools
+    cp dciso chroot/etc/live-tools/
+    chmod +x chroot/etc/live-tools/*
+    printf "[i] Completed. Run './dciso start' to enter chroot.\n"
+    printf "[i] Once in the chrooted environment, ensure that you run \"./etc/live-tools/dciso init\"\n"
+  fi
+else
+  dciso_usage
+fi
