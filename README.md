@@ -96,29 +96,56 @@ chmod +x /etc/rc.local
 ```
 This will log in as root, but the desktop wallpaper will be changed to the default. To fix this ... 
 
-## Notes on Live-Build vs. Bullseye 
-This is a collection of notes that I made while trying to decipher what happened to `live-build` since Buster. It no longer acts the same way and seems no longer applicable to my project. 
+# Notes on Live-Build vs. Bullseye (WIP)
+This is a collection of notes that I made while trying to decipher what happened to `live-build` since Buster. It no longer acts the same way and seems no longer applicable to my project. First of all, I made this an executable script as `/usr/bin/lb-config.sh`: 
 
-**note**: Any time we make chnages or run `lb clean` etc, we must run `lb config` again before running `lb build`
+```bash
+#!/bin/bash
+lb config \
+    --mode debian \
+    --system live \
+    --interactive x11 \
+    --distribution bullseye \
+    --debian-installer live \
+    --architecture amd64 \
+    --archive-areas "main contrib non-free" \
+    --security true \
+    --updates true \
+    --binary-images iso-hybrid \
+    --memtest memtest86+
+```
 
-#### X11 Issues
+This script builds the initial chroot, but will fail when starting `x11` due to poor `live-build` developer decisions. The reason why is that to run `x11` within a chroot, you must mount a lot of stuff in the chroot first.
+
+**note**: Any time we make chnages or run `lb clean` etc, we must run `lb config` again before running `lb build`.
+**note**: I call my build directory `demon-dev` for Demon Linux building. This is where I run the `lb-config.sh`, `lb config`, `lb build` commands.
+
+### X11 Issues
 1. rc.local is ignored at boot and x11 starts with `live-user`
 2. tried making a service and enabling it: failed
 3. sometimes `chroot/etc/rc.local` disappears after building
 4. got everything working (sometimes, as if Debian were rolling dice at boot), but the desktop background would not display (just the default image did)
 5. Updated the desktop-background.xml file which shows the correct wallpaper in the live ISO, but no lset onger as root? wtf?
 
-#### Adding Packages
+### Adding Packages
 1. Adding packages works fine, but since we cannot get X11 to start with the `root` user, the customizations made to the desktop do not show upon booting into the ISO.
 
-#### Lb Build Errors
+### Lb Build Errors
 1. had to disable my VPN conenction or connection issues occurred ?
-2. `--interactive x11` never worked, not even once.
+2. `--interactive x11` never worked, not even once, I get `Cannot open /de/tty0 (No such file or directory)`
     - First, in the host OS, install `dbus-x11 xfce4` with `apt` 
     - disable X11 from autostarting at boot: `systemctl set-defaul multi-user.target`
+    - clone this repository into your home directory
+    - make the chroot dev dir: `mkdir chroot/app-dev`
+    - copy the files from this repo: `cp debian-custom-iso-scripts/in-chroot-scripts/* chroot/app-dev`
+    - copy the chroot init and end files into the build directory: `cp debian-custom-iso-scripts/chroot-* demon-dev`
+    - cd into the build directory `cd demon-dev` and run `./chroot-start.sh`
+    - Now, within the chroot, run `/app-dev/in-chroot-mounts.sh` to mount the necessary devices for x11.
+    - `cd /root && startx` should start xfce4 and you should be able to start your customizations.
+    - to exit, simply log out of xfce4, then run `/app-dev/in-chroot-umounts.sh` (notice the `u`) and exit the chroot `CTRL+d`
+    - Then, run `./chroot-end.sh` and reboot.
   
-
-## References
+# References
 SquashFS-Tools (Debian Package): https://packages.debian.org/search?keywords=squashfs-tools<br />
 Remastersys Project: https://en.wikipedia.org/wiki/Remastersys<br />
 Rsync: https://en.wikipedia.org/wiki/Rsync<br />
