@@ -10,7 +10,7 @@ cd debian-custom-iso-builder
 ```
 Next, run:
 ```bash
-./dc-custom.sh build-chroot (RELEASE) 
+./dciso_build_chroot.sh (RELEASE) 
 ```
 Where "RELEASE" is the Debian release that you want to customize. E.g.: buster, bullseye, etc. This script will build a `chroot/` directory. Next we need to put a few tool into the chroot to access it while chrooted:
 ```bash
