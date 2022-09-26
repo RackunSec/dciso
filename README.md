@@ -115,9 +115,10 @@ lb config \
 
 This script builds the initial chroot, but will fail when starting `x11` due to poor `live-build` developer decisions. The reason why is that to run `x11` within a chroot, you must mount a lot of stuff in the chroot first.
 
-**note**: Any time we make chnages or run `lb clean` etc, we must run `lb config` again before running `lb build`.
-**note**: I call my build directory `demon-dev` for Demon Linux building. This is where I run the `lb-config.sh`, `lb config`, `lb build` commands.
-**note**: Add package list before building by making the file: `config/package-lists/desktop.list.chroot` (because that makes sense to `live-build` devs, smh). This is a line-by-line list of packages to add to the chroot, such as:
+* **note**: Any time we make chnages or run `lb clean` etc, we must run `lb config` again before running `lb build`.
+* **note**: I call my build directory `demon-dev` for Demon Linux building. This is where I run the `lb-config.sh`, `lb config`, `lb build` commands.
+* **note**: Add package list before building by making the file: `config/package-lists/desktop.list.chroot` (because that makes sense to `live-build` devs, smh). This is a line-by-line list of packages to add to the chroot, such as:
+
 ```
 dbus-x11
 xfce4
