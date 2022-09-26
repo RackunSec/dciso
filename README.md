@@ -98,20 +98,25 @@ This will log in as root, but the desktop wallpaper will be changed to the defau
 
 ## Notes on Live-Build vs. Bullseye 
 This is a collection of notes that I made while trying to decipher what happened to `live-build` since Buster. It no longer acts the same way and seems no longer applicable to my project. 
+
+**note**: Any time we make chnages or run `lb clean` etc, we must run `lb config` again before running `lb build`
+
 #### X11 Issues
 1. rc.local is ignored at boot and x11 starts with `live-user`
 2. tried making a service and enabling it: failed
 3. sometimes `chroot/etc/rc.local` disappears after building
 4. got everything working (sometimes, as if Debian were rolling dice at boot), but the desktop background would not display (just the default image did)
-5. Updated the desktop-background.xml file which shows the correct wallpaper in the live ISO, but no longer as root? wtf?
+5. Updated the desktop-background.xml file which shows the correct wallpaper in the live ISO, but no lset onger as root? wtf?
 
 #### Adding Packages
 1. Adding packages works fine, but since we cannot get X11 to start with the `root` user, the customizations made to the desktop do not show upon booting into the ISO.
 
 #### Lb Build Errors
 1. had to disable my VPN conenction or connection issues occurred ?
-2. once I created the file config/package-list/desktop.list.chroot and added x11 packages, I had to re-run `lb config` ?
-3. `--interactive x11` never worked, not even once.
+2. `--interactive x11` never worked, not even once.
+    - First, in the host OS, install `dbus-x11 xfce4` with `apt` 
+    - disable X11 from autostarting at boot: `systemctl set-defaul multi-user.target`
+  
 
 ## References
 SquashFS-Tools (Debian Package): https://packages.debian.org/search?keywords=squashfs-tools<br />
