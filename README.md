@@ -125,6 +125,7 @@ xfce4
 tilix
 papirus-icon-theme
 ```
+because this process is so uncertain (from my experience), you may be runing this stuff over and over. I recommend backing this file up and just dropping it into your build host OS's home directory to quickly just `cp` it back into `chroot/package-lists/` when necessary.
 
 ### X11 Issues
 1. rc.local is ignored at boot and x11 starts with `live-user`
