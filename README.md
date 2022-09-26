@@ -96,6 +96,18 @@ chmod +x /etc/rc.local
 ```
 This will log in as root, but the desktop wallpaper will be changed to the default. To fix this ... 
 
+## Notes on Live-Build vs. Bullseye 
+This is a collection of notes that I made while trying to decipher what happened to `live-build` since Buster. It no longer acts the same way and seems no longer applicable to my project. 
+#### X11 Issues
+1. rc.local is ignored at boot and x11 starts with `live-user`
+2. tried making a service and enabling it: failed
+3. sometimes `chroot/etc/rc.local` disappears after building
+4. got everything working (sometimes, as if Debian were rolling dice at boot), but the desktop background would not display (just the default image did)
+5. Updated the desktop-background.xml file which shows the correct wallpaper in the live ISO, but no longer as root? wtf?
+
+#### Adding Packages
+1. Adding packages works fine, but since we cannot get X11 to start with the `root` user, the customizations made to the desktop do not show upon booting into the ISO.
+
 ## References
 SquashFS-Tools (Debian Package): https://packages.debian.org/search?keywords=squashfs-tools<br />
 Remastersys Project: https://en.wikipedia.org/wiki/Remastersys<br />
