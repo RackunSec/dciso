@@ -108,6 +108,11 @@ This is a collection of notes that I made while trying to decipher what happened
 #### Adding Packages
 1. Adding packages works fine, but since we cannot get X11 to start with the `root` user, the customizations made to the desktop do not show upon booting into the ISO.
 
+#### Lb Build Errors
+1. had to disable my VPN conenction or connection issues occurred ?
+2. once I created the file config/package-list/desktop.list.chroot and added x11 packages, I had to re-run `lb config` ?
+3. 
+
 ## References
 SquashFS-Tools (Debian Package): https://packages.debian.org/search?keywords=squashfs-tools<br />
 Remastersys Project: https://en.wikipedia.org/wiki/Remastersys<br />
