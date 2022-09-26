@@ -111,7 +111,7 @@ This is a collection of notes that I made while trying to decipher what happened
 #### Lb Build Errors
 1. had to disable my VPN conenction or connection issues occurred ?
 2. once I created the file config/package-list/desktop.list.chroot and added x11 packages, I had to re-run `lb config` ?
-3. 
+3. `--interactive x11` never worked, not even once.
 
 ## References
 SquashFS-Tools (Debian Package): https://packages.debian.org/search?keywords=squashfs-tools<br />
