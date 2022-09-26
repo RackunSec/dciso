@@ -133,6 +133,7 @@ This script builds the initial chroot, but will fail when starting `x11` due to 
 ### Lb Build Errors
 1. had to disable my VPN conenction or connection issues occurred ?
 2. `--interactive x11` never worked, not even once, I get: `Cannot open /dev/tty0 (No such file or directory)`
+    - Remove `xserver-xorg-legacy` (Reference)[https://github.com/dnschneid/crouton/issues/3339] `chroot chroot` and `apt update` and `apt remove xserver-xorg-legacy`
     - First, in the host OS, install `dbus-x11 xfce4` with `apt` 
     - disable X11 from autostarting at boot: `systemctl set-defaul multi-user.target`
     - clone this repository into your home directory
