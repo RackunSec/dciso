@@ -1,180 +1,43 @@
-# Debian Custom ISO Scripts and Tutorial
-These are scripts that I made to help with the design and customization of a Debian ISO (Primarily [DEMON LINUX](https://demonlinux.com/)). These scripts have recently been updated to accomodate newer distributions of Debian.
+# Debian Custom ISO Builder
+These are scripts that I made to help with the design and customization of a Debian ISO (Primarily [DEMON LINUX](https://demonlinux.com/)). These scripts have recently been updated to accomodate newer distributions of Debian: Bullseye. The previous version of these scripts relied on [Live-Build](https://live-team.pages.debian.net/live-manual/html/live-manual/index.en.html) which is no longer a necessary tool and has been removed due to contrived user complexity. 
 
-### Setup
-Begin by creating a fresh VM of the latest version of Debian. Do not install any desktop GUI environments if you plan on developing a desktop environment in your ISO. If Debian installs GDM by default you can remove it using the following command:
-```bash
-apt remove gdm3
-```
-Just ensure that when you boot your build/host OS, you are dropped to a login prompt in the terminal, not a GUI login.
-
-### Dependencies
-In your development OS, we need a few tools installed to build out our new Custom Debian. You can install these easily using the following command,
+## Host OS Setup
+Begin by creating a fresh VM of the latest version of Debian. Do not install any desktop GUI environments if you plan on developing a desktop environment in your ISO. This will be our "host" system. In your host OS, we need a few tools installed to build out our new custom Debian. You can install these easily using the following command,
 ```bash
 apt install debootstrap squashfs-tools xorriso grub-pc-bin grub-efi-amd64-bin mtools live-build git vim curl dosfstools
-git clone https://github.com/RackunSec/debian-custom-iso-scripts
-cd debian-custom-iso-scripts
+git clone https://github.com/RackunSec/debian-custom-iso-builder.git
+cd debian-custom-iso-builder
 ```
-
-### Initialize the Project
-The first part, is simply customizing the Debian ISO, in our case the Weakerthan LINUX flavor. The process is that same for starting from scratch, but you need to run the command:
+Next, run:
 ```bash
-initialize-build-process.sh buster
-``` 
-This will install all of the necessary tools to build the ISO and download the Debian LINUX system including packages and system configurations using the `lb` live-build Debian tool. Once this builds the ISO, we can then use the following steps in the "Updating an ISO" section to make our customizations before creating our own ISO.
-
-### Build in Customizations
-we now have the directory ```./chroot``` which contains our soon-to-be live ISO OS. We need to biuld a place within the ```./chroot``` directory which will hold our "in chroot scripts" like so,
+./dc-custom.sh build-chroot (RELEASE) 
+```
+Where "RELEASE" is the Debian release that you want to customize. E.g.: buster, bullseye, etc. This script will build a `chroot/` directory. Next we need to put a few tool into the chroot to access it while chrooted:
 ```bash
-mkdir chroot/demon-dev
-cp in-chroot-scripts/* chroot/demon-dev
+mkdir chroot/etc/demon/
+cp in-chroot.sh chroot/etc/demon
+chmod +x chroot/etc/demon/*
 ```
-Now, we can change root (chroot) into our new ```./chroot``` directory and run the ```/demon-dev/in-chroot-mounts.sh``` script to prepare our environment for customizations. To begin, we simply need to run the following command to change root into the ```./chroot``` directory and once done, run the ```/demon-dev/in-chroot-mounts.sh``` script.
+## Chroot Access
+Now, simply start the chroot with the following command:
 ```bash
-./chroot-start.sh
-/demon-dev/in-chroot-mounts.sh # mounts all necessary OS mount points
-dhclient -v  # in case network did not already happen
-apt update
+./start-chroot.sh
 ```
-Next, we **must** set a locale.
+Once within the chroot, run the tool we passed to it with:
 ```bash
-export LANGUAGE=en_US.UTF-8
-export LANG=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
-locale-gen en_US.UTF-8
-dpkg-reconfigure locales
-apt update # if this fails, you need to run the previous script, "in-chroot-mounts.sh"
-dbus-uuidgen > /var/lib/dbus/machine-id
-# if the locales failed previously, try again now that we have a new uid:
-dpkg-reconfigure locales
+/etc/demon/in-chroot.sh init
+/etc/demon/in-chroot.sh start
 ```
-Next, we **must** install a kernel and a couple other utilities:
+## Chroot Customizations
+Now, we are ready to begin installing packages and making our customizations. If you install `Xfce4`, you can simply run `startx` from the command line and customize the desktop/menus/etc.
+## Exit Chroot
+Once completed, run 
 ```bash
-apt install linux-image-amd64 live-boot systemd-sysv
-update-initramfs -u
+/etc/demon/in-chroot.sh end
 ```
-We can now set our **root** password,
+and exit the shell with `CTRL+D`.
+## Generate the ISO
+Finally, generate the ISO file with the following command:
 ```bash
-passwd root
+./create-iso (ISO NAME).iso
 ```
-[OPTIONAL] We may need to install some things in the chroot that we will use to build our ISO environment.
-```bash
-apt install vim ftp open-vm-tools curl git python3-pip
-```
-
-We also must edit the (included) grub/grub.cfg file:
-```grub
-search --set=root --file /DEMON_CUSTOM
-
-insmod all_video
-
-set default="0"
-set timeout=30
-
-menuentry "Demon Linux (x64)" {
-    linux /vmlinuz boot=live quiet nomodeset
-    initrd /initrd
-}
-```
-Finally, now that we are in the "chrooted" environment, we can make all of our updates.
-
-### X11 in Chroot
-To start X, the machine requires a window manager, dbus connector, and X initialization applications. In the example below, I install XFCE4 - You can choose what ever you wish, just **ensure that you install ```dbus-x11```**. After that, the ```chroot-start.sh``` and ```in-chroot-mounts.sh``` scripts will handle the rest of the process.
-```
-apt install --no-install-recommends xfce4 dbus-x11 xorg xinit
-```
-### Booting Live as Root User + XFCE4
-To have your live ISO boot directly into the desktop environment as the root user, simply add the following contents to `/etc/rc.local` (you may have to create this file). 
-```bash
-#!/bin/bash
-su -c "bash -c \"cd /root && startx\""
-exit 0
-```
-Then make the file executable with the following command:
-```bash
-chmod +x /etc/rc.local
-```
-# Notes on Live-Build vs. Bullseye (WIP)
-This is a collection of notes that I made while trying to decipher what happened to `live-build` since Buster. It no longer acts the same way and seems no longer applicable to my project. First of all, I made this an executable script as `/usr/bin/lb-config.sh`: 
-
-```bash
-#!/bin/bash
-lb config \
-    --mode debian \
-    --system live \
-    --interactive x11 \
-    --distribution bullseye \
-    --debian-installer live \
-    --architecture amd64 \
-    --archive-areas "main contrib non-free" \
-    --security true \
-    --updates true \
-    --binary-images iso-hybrid \
-    --memtest memtest86+
-```
-
-This script builds the initial chroot, but will fail when starting `x11` due to poor `live-build` developer decisions. The reason why is that to run `x11` within a chroot, you must mount a lot of stuff in the chroot first.
-
-* **note**: Any time we make chnages or run `lb clean` etc, we must run `lb config` again before running `lb build`.
-* **note**: I call my build directory `/demon-dev` (Within Host OS root FS) for Demon Linux building. This is where I run the `lb-config.sh`, `lb config`, `lb build` commands.
-* **note**: Add package list before building by making the file: `config/package-lists/desktop.list.chroot` (because that makes sense to `live-build` devs, smh). This is a line-by-line list of packages to add to the chroot, such as:
-
-```
-dbus-x11
-xfce4
-tilix
-papirus-icon-theme
-```
-because this process is so uncertain (from my experience), you may be runing this stuff over and over. I recommend backing this file up and just dropping it into your build host OS's home directory to quickly just `cp` it back into `chroot/package-lists/` when necessary.
-
-### X11 Issues
-1. rc.local is ignored at boot and x11 starts with `live-user`
-2. tried making a service and enabling it: failed
-3. sometimes `chroot/etc/rc.local` disappears after building
-4. got everything working (sometimes, as if Debian were rolling dice at boot), but the desktop background would not display (just the default image did)
-5. Updated the desktop-background.xml file which shows the correct wallpaper in the live ISO, but no lset onger as root? wtf?
-
-### Adding Packages
-1. Adding packages works fine, but since we cannot get X11 to start with the `root` user, the customizations made to the desktop do not show upon booting into the ISO.
-
-### Lb Build Errors
-1. had to disable my VPN conenction or connection issues occurred ?
-
-### Getting X11 to Work in Live-Build's ./Chroot
-* **note**: Making changes to the Xfce4 env as your current user (wallpaper, theme, icons, etc) will not reflect into the live-user's environment when you boot your ISO. This is because the live environment makes a new live-user on the fly. You can either make your WM customizations in your host OS (the os you are running `lb` in), or in the chrooted environment and copy the entire directory contents (hidden folders and all) into `./chroot/etc/skel` to have them go into effect when you boot into your ISO. I only boot into the window manager to do things like copy and paste to make life easier.
-`--interactive x11` never worked, not even once, I get: `Cannot open /dev/tty0 (No such file or directory)`
-   - ~~Remove `xserver-xorg-legacy` [Reference](https://github.com/dnschneid/crouton/issues/3339) `chroot chroot` and `apt update` and `apt remove xserver-xorg-legacy`~~
-   - First, in the host OS, install `dbus-x11 xfce4` with `apt` 
-   - disable X11 from autostarting at bootin your host OS [Optional]: `systemctl set-defaul multi-user.target`
-   - clone this repository into your home directory
-   - make the chroot dev dir: `mkdir chroot/app-dev`
-   - copy the files from this repo: `cp debian-custom-iso-scripts/in-chroot-scripts/* chroot/app-dev`
-   - copy the chroot init and end files into the build directory: `cp debian-custom-iso-scripts/chroot-* demon-dev`
-   - cd into the build directory `cd demon-dev` and run `./chroot-start.sh`
-   - Now, within the chroot, run `/app-dev/in-chroot-mounts.sh` to mount the necessary devices for x11.
-   - `cd /root && startx` should start xfce4.
-   - Once WM customizations are done, you must create a skeleton directory and copy all files (hidden files/etc) from your chroot's root's home directory `/root/` into it to use them in the Live ISO: `mkdir -p /etc/skel && cp -R /root/* /etc/skel/` in your chroot.
-   - to exit, simply log out of xfce4, then run `/app-dev/in-chroot-umounts.sh` (notice the `u`) and exit the chroot `CTRL+d`
-   - Then, run `./chroot-end.sh` and reboot.
-   - Now we can rebuild with `lb clean --binary` and `lb build` 
-  
-# References
-SquashFS-Tools (Debian Package): https://packages.debian.org/search?keywords=squashfs-tools
-
-Remastersys Project: https://en.wikipedia.org/wiki/Remastersys
-
-Rsync: https://en.wikipedia.org/wiki/Rsync
-
-XorrISO: https://www.gnu.org/software/xorriso/
-
-Full UNICODE chart for scripting: http://www.fileformat.info/info/charset/UTF-8/list.htm?start=8192
-
-SYSLINUX: http://www.syslinux.org/wiki/index.php?title=Menu
-
-Will Haley (This works with <= Debian Buster): https://willhaley.com/blog/custom-debian-live-environment/
-
-TerkeyBerger (Bullseye): https://terkeyberger.wordpress.com/2022/03/07/live-build-how-to-build-an-installable-debian-10-buster-live-cd/
-
-Debian Docs (Latest): https://live-team.pages.debian.net/live-manual/html/live-manual/customizing-package-installation.en.html 
-
-LB Build --binary: https://superuser.com/questions/394155/debian-live-build-wont-generate-binary-hybrid-iso-after-first-run
