@@ -146,10 +146,20 @@ This script builds the initial chroot, but will fail when starting `x11` due to 
     - Then, run `./chroot-end.sh` and reboot.
   
 # References
-SquashFS-Tools (Debian Package): https://packages.debian.org/search?keywords=squashfs-tools<br />
-Remastersys Project: https://en.wikipedia.org/wiki/Remastersys<br />
-Rsync: https://en.wikipedia.org/wiki/Rsync<br />
-XorrISO: https://www.gnu.org/software/xorriso/<br />
-Full UNICODE chart for scripting: http://www.fileformat.info/info/charset/UTF-8/list.htm?start=8192<br />
+SquashFS-Tools (Debian Package): https://packages.debian.org/search?keywords=squashfs-tools
+
+Remastersys Project: https://en.wikipedia.org/wiki/Remastersys
+
+Rsync: https://en.wikipedia.org/wiki/Rsync
+
+XorrISO: https://www.gnu.org/software/xorriso/
+
+Full UNICODE chart for scripting: http://www.fileformat.info/info/charset/UTF-8/list.htm?start=8192
+
 SYSLINUX: http://www.syslinux.org/wiki/index.php?title=Menu
-Will Haley: https://willhaley.com/blog/custom-debian-live-environment/
+
+Will Haley (This works with <= Debian Buster): https://willhaley.com/blog/custom-debian-live-environment/
+
+TerkeyBerger (Bullseye): https://terkeyberger.wordpress.com/2022/03/07/live-build-how-to-build-an-installable-debian-10-buster-live-cd/
+
+Debian Docs (Latest): https://live-team.pages.debian.net/live-manual/html/live-manual/customizing-package-installation.en.html 
