@@ -132,19 +132,22 @@ This script builds the initial chroot, but will fail when starting `x11` due to 
 
 ### Lb Build Errors
 1. had to disable my VPN conenction or connection issues occurred ?
-2. `--interactive x11` never worked, not even once, I get: `Cannot open /dev/tty0 (No such file or directory)`
-    - Remove `xserver-xorg-legacy` [Reference](https://github.com/dnschneid/crouton/issues/3339) `chroot chroot` and `apt update` and `apt remove xserver-xorg-legacy`
-    - First, in the host OS, install `dbus-x11 xfce4` with `apt` 
-    - disable X11 from autostarting at boot: `systemctl set-defaul multi-user.target`
-    - clone this repository into your home directory
-    - make the chroot dev dir: `mkdir chroot/app-dev`
-    - copy the files from this repo: `cp debian-custom-iso-scripts/in-chroot-scripts/* chroot/app-dev`
-    - copy the chroot init and end files into the build directory: `cp debian-custom-iso-scripts/chroot-* demon-dev`
-    - cd into the build directory `cd demon-dev` and run `./chroot-start.sh`
-    - Now, within the chroot, run `/app-dev/in-chroot-mounts.sh` to mount the necessary devices for x11.
-    - `cd /root && startx` should start xfce4 and you should be able to start your customizations.
-    - to exit, simply log out of xfce4, then run `/app-dev/in-chroot-umounts.sh` (notice the `u`) and exit the chroot `CTRL+d`
-    - Then, run `./chroot-end.sh` and reboot.
+
+### Getting X11 to Work in Live-Build / Chroot
+`--interactive x11` never worked, not even once, I get: `Cannot open /dev/tty0 (No such file or directory)`
+   - Remove `xserver-xorg-legacy` [Reference](https://github.com/dnschneid/crouton/issues/3339) `chroot chroot` and `apt update` and `apt remove xserver-xorg-legacy`
+   - First, in the host OS, install `dbus-x11 xfce4` with `apt` 
+   - disable X11 from autostarting at boot: `systemctl set-defaul multi-user.target`
+   - clone this repository into your home directory
+   - make the chroot dev dir: `mkdir chroot/app-dev`
+   - copy the files from this repo: `cp debian-custom-iso-scripts/in-chroot-scripts/* chroot/app-dev`
+   - copy the chroot init and end files into the build directory: `cp debian-custom-iso-scripts/chroot-* demon-dev`
+   - cd into the build directory `cd demon-dev` and run `./chroot-start.sh`
+   - Now, within the chroot, run `/app-dev/in-chroot-mounts.sh` to mount the necessary devices for x11.
+   - `cd /root && startx` should start xfce4 and you should be able to start your customizations.
+   - Once customizations are done, you must create a skeleton directory and copy all files (hidden files/etc) from your chroot's root's home directory `/root/` into it to use them in the Live ISO: `mkdir -p /live/chroot/etc/skel && cp -R /root/* /live/chroot/etc/skel/`
+   - to exit, simply log out of xfce4, then run `/app-dev/in-chroot-umounts.sh` (notice the `u`) and exit the chroot `CTRL+d`
+   - Then, run `./chroot-end.sh` and reboot.
   
 # References
 SquashFS-Tools (Debian Package): https://packages.debian.org/search?keywords=squashfs-tools
