@@ -10,34 +10,30 @@ cd debian-custom-iso-builder
 ```
 Next, run:
 ```bash
-./dciso_build_chroot.sh (RELEASE) 
+./dciso_chroot.sh build (RELEASE) 
 ```
 Where "RELEASE" is the Debian release that you want to customize. E.g.: buster, bullseye, etc. This script will build a `chroot/` directory. Next we need to put a few tool into the chroot to access it while chrooted:
-```bash
-mkdir chroot/etc/demon/
-cp in-chroot.sh chroot/etc/demon
-chmod +x chroot/etc/demon/*
-```
+
 ## Chroot Access
 Now, simply start the chroot with the following command:
 ```bash
-./start-chroot.sh
+./dciso_chroot.sh start
 ```
 Once within the chroot, run the tool we passed to it with:
 ```bash
-/etc/demon/in-chroot.sh init
-/etc/demon/in-chroot.sh start
+/etc/live-tools/dciso_in_chroot.sh init # installs a lot of stuff
+/etc/live-tools/dciso_in_chroot.sh start # starts the chroot and mounts stuff for x11
 ```
 ## Chroot Customizations
 Now, we are ready to begin installing packages and making our customizations. If you install `Xfce4`, you can simply run `startx` from the command line and customize the desktop/menus/etc.
 ## Exit Chroot
 Once completed, run 
 ```bash
-/etc/demon/in-chroot.sh end
+/etc/live-build/dciso_in-chroot.sh end
 ```
 and exit the shell with `CTRL+D`.
 ## Generate the ISO
 Finally, generate the ISO file with the following command:
 ```bash
-./create-iso (ISO NAME).iso
+./dciso_create_iso.sh (ISO NAME).iso
 ```
