@@ -110,7 +110,7 @@ gen_iso () {
   	   /boot/grub/bios.img=scratch/bios.img \
   	   /EFI/efiboot.img=scratch/efiboot.img
    ls -lah $iso_name
-   printf "[i] ISO file generated."
+   printf "[i] ISO file generated.\n"
 }
 
 ## Workflow of app:
