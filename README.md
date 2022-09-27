@@ -21,7 +21,7 @@ Arguments:
 ## Host OS Setup
 Begin by creating a fresh VM of the latest version of Debian. Do not install any desktop GUI environments if you plan on developing a desktop environment in your ISO. This will be our "host" system. In your host OS, we need a few tools installed to build out our new custom Debian. You can install these easily using the following command,
 ```bash
-apt install debootstrap squashfs-tools xorriso grub-pc-bin grub-efi-amd64-bin mtools live-build git vim curl dosfstools
+apt install debootstrap squashfs-tools xorriso grub-pc-bin grub-pc grub-efi-amd64-bin mtools live-build git vim curl dosfstools
 git clone https://github.com/RackunSec/debian-custom-iso-builder.git
 cd debian-custom-iso-builder
 ```
