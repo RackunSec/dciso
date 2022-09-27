@@ -8,15 +8,8 @@ RED="\e[91m"
 RST="\e[0m"
 YEL="\e[93m"
 
-cat << Banner
-   _____     ______     __     ______     ______
-  /\  __-.  /\  ___\   /\ \   /\  ___\   /\  __ \\
-  \ \ \/\ \ \ \ \____  \ \ \  \ \___  \  \ \ \/\ \\
-   \ \____-  \ \_____\  \ \_\  \/\_____\  \ \_____\\
-    \/____/   \/_____/   \/_/   \/_____/   \/_____/
-Banner
-printf "     ${YEL}Debian Custom ISO Utility${RST}\n"
-printf "     (c) GNU 2022 - @RackunSec\n"
+printf " ${YEL}Debian Custom ISO Utility${RST}\n"
+printf "  (c) GNU 2022 - @RackunSec\n"
 
 ## Define Usage of app:
 dciso_usage () {
@@ -87,8 +80,15 @@ then
     printf "[i] Installing a new kernel ... \n"
     apt install -y linux-image-amd64 live-boot systemd-sysv
     update-initramfs -u
-    printf "[i] Installing customization apps ... \n"
-    apt install -y vim ftp open-vm-* curl git xfce4 tilix python3-pip python3 gedit dbus-x11 nmap unzip papirus-icon-theme python3-venv
+    printf "[?] Would you like me to install Demon Linux-specific base applications [y/N]? "
+    read ans
+    if [[ "$ans" == "y" ]]
+    then
+      printf "[i] Installing customization apps ... \n"
+      apt install -y vim ftp open-vm-* curl git xfce4 tilix python3-pip python3 gedit dbus-x11 nmap unzip papirus-icon-theme python3-venv
+    fi
+    printf "[i] Please set a new root password.\n"
+    passwd root
   elif [[ "$1" == "in-start" ]]
   then
     dciso_net ## get an IP
@@ -96,7 +96,7 @@ then
     mount none -t sysfs /sys
     mount none -t devpts /dev/pts
     printf "[i] Chroot started: [READY]\n"
-  elif [[ "$1" == "in-end" ]]
+  elif [[ "$1" == "in-end" ]] ## This does a lot of cleaning up
   then
     cp -Rvvv /var/log/postgresql /tmp/
     rm /var/log/*
@@ -116,7 +116,7 @@ then
     rm -rf /root/Videos/*
     rm /var/lib/dbus/machine-id && rm -rf /tmp/*
     umount /proc /sys /dev/pts /dev
-    exit;
+    exit
   else
     if [ "$1" != "build" ]
     then
