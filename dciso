@@ -9,7 +9,7 @@ RST="\e[0m"
 YEL="\e[93m"
 
 printf " ${YEL}Debian Custom ISO Utility${RST}\n"
-printf "  (c) GNU 2022 - @RackunSec\n"
+printf " (c) GNU 2022 - ${RED}@RackunSec${RST}\n"
 
 ## Define Usage of app:
 dciso_usage () {
@@ -29,6 +29,88 @@ dciso_usage () {
 ## Get network connection up:
 dciso_net () {
   dhclient -v
+}
+
+gen_iso () {
+  iso_name=$1
+  printf "[i] Creating ISO file $iso_name from ./chroot."
+  printf "[i] Creating development directories in ./binary ... \n"
+  rm -rf image 2>/dev/null # remove old dev files
+  rm -rf scratch 2>/dev/null # remove old versions
+  mkdir -p {image/live,scratch}
+  ### Create SquashFS:
+  printf "[i] Making SquashFS filesystem, this will take some time ... \n"
+  mksquashfs chroot image/live/filesystem.squashfs -comp xz -e boot
+  ### Copy the VMLINUZ and INITRD into the ./binary directory:
+  printf "[i] Copying Kernel and InitRAMFS to the development directory ... \n" # copy over LINUX
+  cp chroot/boot/vmlinuz-* image/vmlinuz
+  cp chroot/boot/initrd.img-* image/initrd
+  ### Copt GRUB Menu over to new image area:
+  cp grub/grub.cfg scratch/grub.cfg
+  touch image/DEMON_CUSTOM
+
+  #################################
+  ### UEFI/BIOS Booting:
+
+  ### (step 1)
+  ### Create Grub UEFI/BIOS image:
+  grub-mkstandalone \
+  	--format=x86_64-efi \
+  	--output=scratch/bootx64.efi \
+  	--locales="" \
+  	--fonts="" \
+  	"boot/grub/grub.cfg=scratch/grub.cfg"
+
+  ### (step 2)
+  ### Create Fat 16 UEFI boot disk image:
+  (cd scratch && dd if=/dev/zero of=efiboot.img bs=1M count=10 && \
+  	mkfs.vfat efiboot.img && \
+  	mmd -i efiboot.img efi efi/boot && \
+  	mcopy -i efiboot.img ./bootx64.efi ::efi/boot/)
+
+  ### (step 3)
+  ### Create GRUB BIOS Image:
+  grub-mkstandalone \
+  	--format=i386-pc \
+  	--output=scratch/core.img \
+  	--install-modules="linux normal iso9660 biosdisk memdisk search tar ls" \
+  	--modules="linux normal iso9660 biosdisk search" \
+  	--locales="" \
+  	--fonts="" \
+  	"boot/grub/grub.cfg=scratch/grub.cfg"
+
+  ### (step 4)
+  ### Combine GRUB with our Bootloader IMG:
+  cat /usr/lib/grub/i386-pc/cdboot.img \
+  	scratch/core.img \
+  	> scratch/bios.img
+
+  ###
+  ### Finally, Generate the ISO Image file:
+  xorriso \
+  	-as mkisofs \
+  	-iso-level 3 \
+  	-full-iso9660-filenames \
+  	-volid "DEMON_CUSTOM" \
+  	-eltorito-boot \
+  	 boot/grub/bios.img \
+  	 -no-emul-boot \
+  	 -boot-load-size 4 \
+  	 -boot-info-table \
+  	 --eltorito-catalog boot/grub/boot.cat \
+  	--grub2-boot-info \
+  	--grub2-mbr /usr/lib/grub/i386-pc/boot_hybrid.img \
+  	--eltorito-alt-boot \
+  	 -e EFI/efiboot.img \
+  	 -no-emul-boot \
+  	 -append_partition 2 0xef scratch/efiboot.img \
+  	 -output "$iso_name" \
+  	 -graft-points \
+  	   "image" \
+  	   /boot/grub/bios.img=scratch/bios.img \
+  	   /EFI/efiboot.img=scratch/efiboot.img
+   ls -lah $iso_name
+   printf "[i] ISO file generated."
 }
 
 ## Workflow of app:
@@ -89,7 +171,7 @@ then
     fi
     printf "[i] Please set a new root password.\n"
     passwd root
-  elif [[ "$1" == "in-start" ]]
+  elif [[ "$1" == "in-start" ]] ## This may not be necessary
   then
     dciso_net ## get an IP
     mount none -t proc /proc
@@ -117,6 +199,10 @@ then
     rm /var/lib/dbus/machine-id && rm -rf /tmp/*
     umount /proc /sys /dev/pts /dev
     exit
+  elif [[ "$1" == "geniso" ]]
+  then
+    printf "\n[?] I need an ISO image file name ... \n"
+    dciso_usage
   else
     if [ "$1" != "build" ]
     then
@@ -139,6 +225,9 @@ then
     chmod +x chroot/etc/live-tools/*
     printf "[i] Completed. Run './dciso start' to enter chroot.\n"
     printf "[i] Once in the chrooted environment, ensure that you run \"./etc/live-tools/dciso init\"\n"
+  elif [[ "$1" == "geniso" ]]
+  then
+    gen_iso $2 ## What weird syntax...
   fi
 else
   dciso_usage
