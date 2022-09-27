@@ -3,7 +3,7 @@
 
 ```
  Debian Custom ISO Utility
-  (c) GNU 2022 - @RackunSec
+ (c) GNU 2022 - @RackunSec
 
 Usage: ./dciso (args)
 
