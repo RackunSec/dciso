@@ -9,7 +9,7 @@ Usage: ./dciso (args)
 
 Arguments:
   build (RELEASE) - Build the chroot directory.
-  install-dep - Install all dependencies required for DCISO.
+  install-dep - Install all dependencies required for dciso.
   clean - Destroys the chroot directory.
   start - Starts a chroot session in ./chroot.
   end - Ends the current chroot session from ./chroot
@@ -33,7 +33,7 @@ To build an ISO, we need a chroot to work out of and make our customizations. We
 ```
 Where "RELEASE" is the Debian release that you want to customize. E.g.: buster, bullseye, etc. This script will build a `chroot/` directory. Next we need to put a few tool into the chroot to access it while chrooted:
 
-### Chroot Access
+### Chroot Access and Customizations
 Now, simply start the chroot shell with the following command:
 ```bash
 ./dciso start
@@ -43,7 +43,6 @@ Once within the chroot shell, run the tool we passed to it with:
 /etc/live-tools/dciso init # installs a lot of stuff
 /etc/live-tools/dciso in-start # starts the chroot and mounts stuff for x11
 ```
-### Chroot Customizations
 Now, we are ready to begin installing packages and making our customizations. If you install `Xfce4`, you can simply run `startx` from the command line and customize the desktop/menus/etc.
 ## Exit Chroot
 Once completed, run 
