@@ -16,6 +16,7 @@ dciso_usage () {
   printf "\nUsage: ./dciso (args)\n"
   printf "\nArguments:\n"
   printf "  ${BOLD}${RED}build ${YEL}(RELEASE)${RST} - Build the chroot directory.\n"
+  printf "  ${BOLD}${RED}install-dep${RST} - Install all DCISO dependencies.\n"
   printf "  ${BOLD}${RED}clean${RST} - Destroys the chroot directory.\n"
   printf "  ${BOLD}${RED}start${RST} - Starts a chroot session in ./chroot.\n"
   printf "  ${BOLD}${RED}end${RST} - Ends the current chroot session from ./chroot\n"
@@ -113,6 +114,11 @@ gen_iso () {
    printf "[i] ISO file generated.\n"
 }
 
+dciso_depends () {
+  apt update
+  apt install -y debootstrap squashfs-tools xorriso grub-pc-bin grub-pc grub-efi-amd64-bin mtools live-build git vim curl dosfstools git 1>/dev/null
+}
+
 ## Workflow of app:
 if [[ $# -eq 1 ]] ## most commands are 1 arg:
 then
@@ -142,6 +148,10 @@ then
       printf "[i] Done. Re-run ./dciso build (RELEASE) to make a new chroot environment.\n"
       exit
     fi
+  elif [[ "$1" == "install-dep" ]]
+  then
+    printf "[i] Installing DCISO dependencies ... \n"
+    dciso_depends
   elif [[ "$1" == "init" ]]
   then
     printf "[i] Initialization process started.\n"
