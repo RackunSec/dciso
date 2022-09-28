@@ -3,13 +3,14 @@
 ## 2022 @RackunSec
 
 ## Define some colors:
-BOLD="\e[1m"
-RED="\e[91m"
-RST="\e[0m"
-YEL="\e[93m"
+BOLD="\e[1m" ## Bold Text
+RED="\e[91m" ## Red Text
+RST="\e[0m" ## Reset to default Text 
+YEL="\e[93m" ## Yellow Text
+GRN="\e[92m" ## Green Text
 
 printf " ${YEL}Debian Custom ISO Utility${RST}\n"
-printf " (c) GNU 2022 - ${RED}@RackunSec${RST}\n"
+printf " (c) GNU 2022 - ${BOLD}${GRN}@RackunSec${RST}\n"
 
 ## Define Usage of app:
 dciso_usage () {
@@ -34,8 +35,8 @@ dciso_net () {
 
 gen_iso () {
   iso_name=$1
-  printf "${YEL}[i]${RST} Creating ISO file $iso_name from ./chroot.\n"
-  printf "${YEL}[i]${RST} Creating development directories in ./binary ... \n"
+  printf "${BOLD}${GRN}[i]${RST} Creating ISO file $iso_name from ./chroot.\n"
+  printf "${BOLD}${GRN}[i]${RST} Creating development directories in ./binary ... \n"
   rm -rf image 2>/dev/null # remove old dev files
   rm -rf scratch 2>/dev/null # remove old versions
   mkdir -p {image/live,scratch}
@@ -43,7 +44,7 @@ gen_iso () {
   printf "${YEL}[i]${RST} Making SquashFS filesystem, this will take some time ... \n"
   mksquashfs chroot image/live/filesystem.squashfs -comp xz -e boot
   ### Copy the VMLINUZ and INITRD into the ./binary directory:
-  printf "${YEL}[i]${RST} Copying Kernel and InitRAMFS to the development directory ... \n" # copy over LINUX
+  printf "${BOLD}${GRN}[i]${RST} Copying Kernel and InitRAMFS to the development directory ... \n" # copy over LINUX
   cp chroot/boot/vmlinuz-* image/vmlinuz
   cp chroot/boot/initrd.img-* image/initrd
   ### Copt GRUB Menu over to new image area:
@@ -111,7 +112,7 @@ gen_iso () {
   	   /boot/grub/bios.img=scratch/bios.img \
   	   /EFI/efiboot.img=scratch/efiboot.img
    ls -lah $iso_name
-   printf "${YEL}[i]${RST} ISO file generated.\n"
+   printf "${BOLD}${GRN}[i]${RST} ISO file generated.\n"
 }
 
 dciso_depends () {
@@ -124,7 +125,7 @@ if [[ $# -eq 1 ]] ## most commands are 1 arg:
 then
   if [[ "$1" == "start-chroot" ]] ## start the chroot
   then
-    printf "${YEL}[i]${RST} Mounting devices into chroot, when done, you will be chrooted... \n"
+    printf "${BOLD}${GRN}[i]${RST} Mounting devices into chroot, when done, you will be chrooted... \n"
     mount --bind /dev ./chroot/dev/
     mount --bind /dev/pts ./chroot/dev/pts/
     mount --bind /dev/shm ./chroot/dev/shm # REQUIRED
@@ -134,9 +135,9 @@ then
     chroot ./chroot
   elif [[ "$1" == "end-chroot" ]]
   then
-    printf "${YEL}[i]${RST} Umounting devices in ./chroot ... \n"
+    printf "${BOLD}${GRN}[i]${RST} Umounting devices in ./chroot ... \n"
     umount {chroot/dev/pts,chroot/dev,chroot/sys,chroot/proc,chroot/run}
-    printf "${YEL}[i]${RST} Completed. I recommend that you reboot.\n"
+    printf "${BOLD}${GRN}[i]${RST} Completed. I recommend that you reboot.\n"
   elif [[ "$1" == "clean" ]]
   then
     printf "${RED}${BOLD} WARNING: THIS CANNOT BE UNDONE!\n${RST}"
@@ -145,23 +146,23 @@ then
     if [[ "$ans" == "y" ]]
     then
       rm -rf chroot
-      printf "${YEL}[i]${RST} Done. Re-run ./dciso build (RELEASE) to make a new chroot environment.\n"
+      printf "${BOLD}${GRN}[i]${RST} Done. Re-run ./dciso build (RELEASE) to make a new chroot environment.\n"
       exit
     fi
   elif [[ "$1" == "install-dep" ]]
   then
-    printf "${YEL}[i]${RST} Installing DCISO dependencies ... \n"
+    printf "${BOLD}${GRN}[i]${RST} Installing DCISO dependencies ... \n"
     dciso_depends
   elif [[ "$1" == "init" ]]
   then
-    printf "${YEL}[i]${RST} Initialization process started.\n"
+    printf "${BOLD}${GRN}[i]${RST} Initialization process started.\n"
     dciso_net
     ## install initial depends:
-    printf "${YEL}[i]${RST} Installing initial dependencies ... \n"
+    printf "${BOLD}${GRN}[i]${RST} Installing initial dependencies ... \n"
     apt update
     apt install locales systemd-sysv live-boot -y
     ## configure initial depends:
-    printf "${YEL}[i]${RST} Configuring initial dependencies ... \n"
+    printf "${BOLD}${GRN}[i]${RST} Configuring initial dependencies ... \n"
     export LANGUAGE=en_US.UTF-8
     export LANG=en_US.UTF-8
     export LC_ALL=en_US.UTF-8
@@ -176,10 +177,10 @@ then
     read ans
     if [[ "$ans" == "y" ]]
     then
-      printf "${YEL}[i]${RST} Installing customization apps ... \n"
+      printf "${BOLD}${GRN}[i]${RST} Installing customization apps ... \n"
       apt install -y vim ftp open-vm-* curl git xfce4 tilix python3-pip python3 gedit dbus-x11 nmap unzip papirus-icon-theme python3-venv
     fi
-    printf "${YEL}[i]${RST} Please set a new root password.\n"
+    printf "${BOLD}${GRN}[i]${RST} Please set a new root password.\n"
     passwd root
   elif [[ "$1" == "in-start-chroot" ]] ## This may not be necessary
   then
@@ -187,7 +188,7 @@ then
     mount none -t proc /proc
     mount none -t sysfs /sys
     mount none -t devpts /dev/pts
-    printf "${YEL}[i]${RST} Chroot started: [READY]\n"
+    printf "${BOLD}${GRN}[i]${RST} Chroot started: [READY]\n"
   elif [[ "$1" == "in-end-chroot" ]] ## This does a lot of cleaning up
   then
     cp -Rvvv /var/log/postgresql /tmp/
@@ -211,15 +212,15 @@ then
     exit
   elif [[ "$1" == "geniso" ]]
   then
-    printf "\n${RED}[?]${RST} I need an ISO image file name ... \n"
+    printf "\n${BOLD}${RED}[?]${RST} I need an ISO image file name ... \n"
     dciso_usage
   else
     if [ "$1" != "build" ]
     then
-      printf "\n${RED}[?]${RST} I don't know what ${1} is ... \n"
+      printf "\n${BOLD}${RED}[?]${RST} I don't know what ${1} is ... \n"
       dciso_usage
     else
-      printf "\n${RED}[?]${RST} Build what? I need a release name (buster, bullseye, etc).\n"
+      printf "\n${BOLD}${RED}[?]${RST} Build what? I need a release name (buster, bullseye, etc).\n"
       dciso_usage
     fi
   fi
@@ -227,14 +228,14 @@ elif [[ $# -eq 2 ]]
 then
   if [[ "$1" == "build" ]]
   then
-    printf "${YEL}[i]${RST} Building chroot directory with ${2} ... \n"
+    printf "${BOLD}${GRN}[i]${RST} Building chroot directory with ${2} ... \n"
     debootstrap --arch=amd64 ${2} chroot
-    printf "${YEL}[i]${RST} Copying tools into ./chroot\n"
+    printf "${BOLD}${GRN}[i]${RST} Copying tools into ./chroot\n"
     mkdir chroot/etc/live-tools
     cp dciso chroot/etc/live-tools/
     chmod +x chroot/etc/live-tools/*
-    printf "${YEL}[i]${RST} Completed. Run './dciso start' to enter chroot.\n"
-    printf "${YEL}[i]${RST} Once in the chrooted environment, ensure that you run \"./etc/live-tools/dciso init\"\n"
+    printf "${BOLD}${GRN}[i]${RST} Completed. Run './dciso start' to enter chroot.\n"
+    printf "${BOLD}${GRN}[i]${RST} Once in the chrooted environment, ensure that you run \"./etc/live-tools/dciso init\"\n"
   elif [[ "$1" == "geniso" ]]
   then
     gen_iso $2 ## What weird syntax...
