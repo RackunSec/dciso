@@ -25,7 +25,7 @@ cd debian-custom-iso-builder
 chmod +x dciso
 ./dciso install-dep # This will install all dependencies
 ```
-## Build the ISO
+## Building your Custom ISO
 To build an ISO, we need a chroot to work out of and make our customizations. We build the chroot with the following command:
 ```bash
 ./dciso build (RELEASE) 
