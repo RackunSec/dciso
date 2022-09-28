@@ -44,13 +44,13 @@ Once within the chroot shell, run the tool we passed to it with:
 /etc/live-tools/dciso in-start # starts the chroot and mounts stuff for x11
 ```
 Now, we are ready to begin installing packages and making our customizations. If you install `Xfce4`, you can simply run `startx` from the command line and customize the desktop/menus/etc.
-## Exit Chroot
+### Exit Chroot
 Once completed, run 
 ```bash
 /etc/live-build/dciso in-end
 ```
 and exit the chroot shell with `CTRL+D`.
-### Generate the ISO
+## Generate the ISO
 Finally, generate the ISO file with the following command:
 ```bash
 ./dciso geniso (ISO NAME).iso
