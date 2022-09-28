@@ -49,7 +49,7 @@ Once completed, run
 ```bash
 /etc/live-build/dciso in-end
 ```
-and exit the shell with `CTRL+D`.
+and exit the chroot shell with `CTRL+D`.
 ### Generate the ISO
 Finally, generate the ISO file with the following command:
 ```bash
