@@ -34,11 +34,11 @@ To build an ISO, we need a chroot to work out of and make our customizations. We
 Where "RELEASE" is the Debian release that you want to customize. E.g.: buster, bullseye, etc. This script will build a `chroot/` directory. Next we need to put a few tool into the chroot to access it while chrooted:
 
 ### Chroot Access
-Now, simply start the chroot with the following command:
+Now, simply start the chroot shell with the following command:
 ```bash
 ./dciso start
 ```
-Once within the chroot, run the tool we passed to it with:
+Once within the chroot shell, run the tool we passed to it with:
 ```bash
 /etc/live-tools/dciso init # installs a lot of stuff
 /etc/live-tools/dciso in-start # starts the chroot and mounts stuff for x11
