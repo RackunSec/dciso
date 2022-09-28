@@ -18,11 +18,11 @@ dciso_usage () {
   printf "  ${BOLD}${RED}build ${YEL}(RELEASE)${RST} - Build the chroot directory.\n"
   printf "  ${BOLD}${RED}install-dep${RST} - Install all DCISO dependencies.\n"
   printf "  ${BOLD}${RED}clean${RST} - Destroys the chroot directory.\n"
-  printf "  ${BOLD}${RED}start${RST} - Starts a chroot session in ./chroot.\n"
-  printf "  ${BOLD}${RED}end${RST} - Ends the current chroot session from ./chroot\n"
+  printf "  ${BOLD}${RED}start-chroot${RST} - Starts a chroot session in ./chroot.\n"
+  printf "  ${BOLD}${RED}end-chroot${RST} - Ends the current chroot session from ./chroot\n"
   printf "  ${BOLD}${RED}init${RST} - Performs first time set of of the chroot, should be ran within chroot.\n"
-  printf "  ${BOLD}${RED}in-start${RST} - Sets up the current chroot session, should be ran within chroot.\n"
-  printf "  ${BOLD}${RED}in-end${RST} - ends the current chroot session, should be ran within chroot.\n"
+  printf "  ${BOLD}${RED}in-start-chroot${RST} - Sets up the current chroot session, should be ran within chroot.\n"
+  printf "  ${BOLD}${RED}in-end-chroot${RST} - ends the current chroot session, should be ran within chroot.\n"
   printf "  ${BOLD}${RED}geniso ${YEL}(ISO NAME).iso${RST} - Will create an ISO file from ./chroot\n\n"
   exit 1337
 }
@@ -122,7 +122,7 @@ dciso_depends () {
 ## Workflow of app:
 if [[ $# -eq 1 ]] ## most commands are 1 arg:
 then
-  if [[ "$1" == "start" ]] ## start the chroot
+  if [[ "$1" == "start-chroot" ]] ## start the chroot
   then
     printf "[i] Mounting devices into chroot, when done, you will be chrooted... \n"
     mount --bind /dev ./chroot/dev/
@@ -132,7 +132,7 @@ then
     mount --bind /sys  ./chroot/sys/
     mount --bind /run ./chroot/run # for x11 mouse and keyboard functioning!
     chroot ./chroot
-  elif [[ "$1" == "end" ]]
+  elif [[ "$1" == "end-chroot" ]]
   then
     printf "[i] Umounting devices in ./chroot ... \n"
     umount {chroot/dev/pts,chroot/dev,chroot/sys,chroot/proc,chroot/run}
@@ -181,14 +181,14 @@ then
     fi
     printf "[i] Please set a new root password.\n"
     passwd root
-  elif [[ "$1" == "in-start" ]] ## This may not be necessary
+  elif [[ "$1" == "in-start-chroot" ]] ## This may not be necessary
   then
     dciso_net ## get an IP
     mount none -t proc /proc
     mount none -t sysfs /sys
     mount none -t devpts /dev/pts
     printf "[i] Chroot started: [READY]\n"
-  elif [[ "$1" == "in-end" ]] ## This does a lot of cleaning up
+  elif [[ "$1" == "in-end-chroot" ]] ## This does a lot of cleaning up
   then
     cp -Rvvv /var/log/postgresql /tmp/
     rm /var/log/*
