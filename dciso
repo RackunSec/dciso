@@ -242,7 +242,7 @@ then
       cd /tmp
       wget https://demonlinux.com/download/packages/4.X/ulauncher_5.15.0_all.deb
       dpkg -i ulauncher_5.15.0_all.deb
-      apt -f install
+      apt -f install -y
       ## Install Others:
       python3 -m pip install ldapdomaindump
       pipx install spraycharles
