@@ -37,7 +37,7 @@ dciso_net () {
   dhclient -v
 }
 
-gen_iso () {
+dciso_mkiso () {
   iso_name=$1
   printf "${BOLD}${GRN}[i]${RST} Creating ISO file $iso_name from ./chroot.\n"
   printf "${BOLD}${GRN}[i]${RST} Creating development directories in ./binary ... \n"
@@ -334,9 +334,9 @@ then
     chmod +x chroot/etc/live-tools/*
     printf "${BOLD}${GRN}[i]${RST} Completed. Run './dciso start-chroot' to enter chroot.\n"
     printf "${BOLD}${GRN}[i]${RST} Once in the chrooted environment, ensure that you run \"./etc/live-tools/dciso init\"\n"
-  elif [[ "$1" == "geniso" ]]
+  elif [[ "$1" == "mkiso" ]]
   then
-    gen_iso $2 ## What weird syntax...
+    dciso_mkiso $2 ## What weird syntax...
   fi
 else
   dciso_usage
