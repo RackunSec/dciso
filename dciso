@@ -187,7 +187,7 @@ then
         gedit dbus-x11 nmap unzip papirus-icon-theme python3-venv gedit proxychains4 freerdp2-x11 \
         lightdm-settings lightdm slick-greeter xfce4-goodies libpcap-dev wget \
         libssl-dev tcpdump firefox-esr unzip sudo smbclient imagemagick ghostscript gnome-themes-extra gnome-themes-extra-data \
-        tshark 
+        tshark simplescreenrecorder
       python3 -m pip install pipx ## for pipx apps
       python3 -m pip install poetry ## For poetry-enabled apps
       pipx ensurepath ## Fixes pipx $PATH
