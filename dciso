@@ -236,7 +236,7 @@ then
     mkdir chroot/etc/live-tools
     cp dciso chroot/etc/live-tools/
     chmod +x chroot/etc/live-tools/*
-    printf "${BOLD}${GRN}[i]${RST} Completed. Run './dciso chroot-start' to enter chroot.\n"
+    printf "${BOLD}${GRN}[i]${RST} Completed. Run './dciso start-chroot' to enter chroot.\n"
     printf "${BOLD}${GRN}[i]${RST} Once in the chrooted environment, ensure that you run \"./etc/live-tools/dciso init\"\n"
   elif [[ "$1" == "geniso" ]]
   then
