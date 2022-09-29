@@ -215,6 +215,8 @@ then
       mkdir -p /root/Pentest/scans
       mkdir -p /root/Pentest/files
       mkdir -p /root/Pentest/users
+      ## Install the most beautiful font:
+      cd /usr/share/fonts/truetype/ && wget https://demonlinux.com/download/packages/4.X/ubuntu-font.zip && unzip ubuntu-font.zip && rm ubuntu-font.zip && fc-cache -f
       ## Install MSF:
       cd /redteam/exploit
       curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall && \
