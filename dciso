@@ -196,6 +196,13 @@ then
       mkdir -p /redteam/rackunsec
       mkdir -p /redteam/passwords
       mkdir -p /redteam/wordlists
+      ## Install my stuff:
+      cd /redteam/rackunsec
+      git clone https://github.com/RackunSec/py-web-tools.git
+      git clone https://github.com/RackunSec/py-ad-tools.git
+      git clone https://github.com/RackunSec/cme-modules.git
+      git clone https://github.com/RackunSec/rackun-wordlists.git
+      git clone https://github.com/RackunSec/q-dehashed.git
       ## Build out Pentest area:
       mkdir -p /root/Pentest/web
       mkdir -p /root/Pentest/scans
