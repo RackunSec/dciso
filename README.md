@@ -21,7 +21,6 @@ In Chroot Tools:
   in-end-chroot - ends the current chroot session, should be ran within chroot.
 Generate an ISO:
   mkiso (ISO NAME).iso - Will create an ISO file from ./chroot
-
 ```
 ## Installation
 To install, run the following commands:
