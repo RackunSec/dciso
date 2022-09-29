@@ -8,15 +8,19 @@
 Usage: ./dciso (args)
 
 Arguments:
+Dependencies:
   install-dep - Install all dciso dependencies.
+Chroot Tools:
   build-chroot (RELEASE) - Build the chroot directory.
   start-chroot - Starts a chroot session in ./chroot.
   end-chroot - Ends the current chroot session from ./chroot
   clean - Destroys the chroot directory.
-  init - Performs first time set of of the chroot, should be ran within chroot.
+In Chroot Tools:
+  in-init - Performs first time set of of the chroot, should be ran within chroot.
   in-start-chroot - Sets up the current chroot session, should be ran within chroot.
   in-end-chroot - ends the current chroot session, should be ran within chroot.
-  geniso (ISO NAME).iso - Will create an ISO file from ./chroot
+Generate an ISO:
+  mkiso (ISO NAME).iso - Will create an ISO file from ./chroot
 
 ```
 ## Installation
