@@ -8,11 +8,11 @@
 Usage: ./dciso (args)
 
 Arguments:
-  build (RELEASE) - Build the chroot directory.
-  install-dep - Install all DCISO dependencies.
-  clean - Destroys the chroot directory.
+  install-dep - Install all dciso dependencies.
+  build-chroot (RELEASE) - Build the chroot directory.
   start-chroot - Starts a chroot session in ./chroot.
   end-chroot - Ends the current chroot session from ./chroot
+  clean - Destroys the chroot directory.
   init - Performs first time set of of the chroot, should be ran within chroot.
   in-start-chroot - Sets up the current chroot session, should be ran within chroot.
   in-end-chroot - ends the current chroot session, should be ran within chroot.
