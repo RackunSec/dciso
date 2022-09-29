@@ -168,12 +168,12 @@ then
     export LC_ALL=en_US.UTF-8
     locale-gen en_US.UTF-8
     dpkg-reconfigure locales
-    printf "[i] Generating a new system UUID ... \n"
+    printf "${BOLD}${GRN}[i]${RST} Generating a new system UUID ... \n"
     dbus-uuidgen > /var/lib/dbus/machine-id
-    printf "[i] Installing a new kernel ... \n"
+    printf "${BOLD}${GRN}[i]${RST} Installing a new kernel ... \n"
     apt install -y linux-image-amd64 live-boot systemd-sysv
     update-initramfs -u
-    printf "[?] Would you like me to install Demon Linux-specific base applications [y/N]? "
+    printf "${BOLD}${RED}[?]${RST} Would you like me to install Demon Linux-specific base applications [y/N]? "
     read ans
     if [[ "$ans" == "y" ]]
     then
@@ -211,6 +211,7 @@ then
     rm -rf /root/Videos/*
     rm /var/lib/dbus/machine-id && rm -rf /tmp/*
     umount /proc /sys /dev/pts /dev
+    printf "${BOLD}${GRN}[i]${RST} Chroot session ended.\n"
     exit
   elif [[ "$1" == "geniso" ]]
   then
