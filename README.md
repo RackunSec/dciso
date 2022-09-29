@@ -63,3 +63,9 @@ Finally, generate the ISO file with the following command:
 ```bash
 ./dciso geniso (ISO NAME).iso
 ```
+
+# Demon Linux Specific Items
+If you'd like the Demon Linux Bash shell prompt theme, use this in your `~/.bashrc` file:
+```bash
+PS1='\033[48;5;;38;5;240m╭╴\e[m\e[1m${debian_chroot:+($debian_chroot)}\u\e[m＠\e[1m\h\e[m \033[48;5;;38;5;249m⌀\e[m \033[48;5;;38;5;243m\t\e[m\n\033[48;5;;38;5;239m╰[\e[m\033[48;5;;38;5;247m\w\e[m\033[48;5;;38;5;239m]\e[m→  '
+```
