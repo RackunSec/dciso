@@ -14,7 +14,7 @@ printf " (c) GNU 2022 - @RackunSec\n"
 
 ## Define Usage of app:
 dciso_usage () {
-  printf "\nUsage: ./dciso (args)\n"
+  printf "\n${BOLD}${YEL}Usage${RST}: ./dciso (${RED}args${RST})\n"
   printf "\nArguments:\n"
   printf " ** ${YEL}Dependencies${RST}:\n"
   printf "  ${BOLD}${RED}install-dep${RST} - Install all dciso dependencies.\n"
@@ -150,7 +150,7 @@ then
     if [[ "$ans" == "y" ]]
     then
       rm -rf chroot
-      printf "${BOLD}${GRN}[i]${RST} Done. Re-run ./dciso build (RELEASE) to make a new chroot environment.\n"
+      printf "${BOLD}${GRN}[i]${RST} Done. Re-run \"./dciso build-chroot (RELEASE)\" to make a new chroot environment.\n"
       exit
     fi
   elif [[ "$1" == "install-dep" ]]
@@ -319,7 +319,7 @@ then
   fi
 elif [[ $# -eq 2 ]]
 then
-  if [[ "$1" == "build" ]]
+  if [[ "$1" == "build-chroot" ]]
   then
     printf "${BOLD}${GRN}[i]${RST} Building chroot directory with ${2} ... \n"
     debootstrap --arch=amd64 ${2} chroot
