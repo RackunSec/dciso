@@ -9,8 +9,8 @@ RST="\e[0m" ## Reset to default Text
 YEL="\e[93m" ## Yellow Text
 GRN="\e[92m" ## Green Text
 
-printf " ${YEL}Debian Custom ISO Utility${RST}\n"
-printf " (c) GNU 2022 - ${BOLD}${GRN}@RackunSec${RST}\n"
+printf "\n Debian Custom ISO Utility\n"
+printf " (c) GNU 2022 - @RackunSec\n"
 
 ## Define Usage of app:
 dciso_usage () {
