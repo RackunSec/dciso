@@ -16,7 +16,7 @@ printf " (c) GNU 2022 - ${BOLD}${GRN}@RackunSec${RST}\n"
 dciso_usage () {
   printf "\nUsage: ./dciso (args)\n"
   printf "\nArguments:\n"
-  printf "  ${BOLD}${RED}build ${YEL}(RELEASE)${RST} - Build the chroot directory.\n"
+  printf "  ${BOLD}${RED}build-chroot ${YEL}(RELEASE)${RST} - Build the chroot directory.\n"
   printf "  ${BOLD}${RED}install-dep${RST} - Install all DCISO dependencies.\n"
   printf "  ${BOLD}${RED}clean${RST} - Destroys the chroot directory.\n"
   printf "  ${BOLD}${RED}start-chroot${RST} - Starts a chroot session in ./chroot.\n"
@@ -304,7 +304,7 @@ then
     printf "\n${BOLD}${RED}[?]${RST} I need an ISO image file name ... \n"
     dciso_usage
   else
-    if [ "$1" != "build" ]
+    if [ "$1" != "build-chroot" ]
     then
       printf "\n${BOLD}${RED}[?]${RST} I don't know what ${1} is ... \n"
       dciso_usage
