@@ -182,7 +182,7 @@ then
       apt install -y vim ftp open-vm-* curl git xfce4 tilix python3-pip python3 \
         gedit dbus-x11 nmap unzip papirus-icon-theme python3-venv gedit proxychains4 freerdp2-x11 \
         lightdm-settings lightdm slick-greeter xfce4-goodies libpcap-dev wget \
-        libssl-dev tcpdump firefox-esr unzip sudo 
+        libssl-dev tcpdump firefox-esr unzip sudo smbclient imagemagick ghostscript 
       python3 -m pip install pipx ## for pipx apps
       python3 -m pip install poetry ## For poetry-enabled apps
       pipx ensurepath ## Fixes pipx $PATH
@@ -196,6 +196,7 @@ then
       mkdir -p /redteam/rackunsec
       mkdir -p /redteam/passwords
       mkdir -p /redteam/wordlists
+      mkdir -p /redteam/printers
       ## Install my stuff:
       cd /redteam/rackunsec
       git clone https://github.com/RackunSec/py-web-tools.git
@@ -208,12 +209,21 @@ then
       mkdir -p /root/Pentest/scans
       mkdir -p /root/Pentest/files
       mkdir -p /root/Pentest/users
+      ## Install MSF:
+      cd /redteam/exploit
+      curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall && \
+      chmod 755 msfinstall && \
+      ./msfinstall
+      ## Install Searchsploit:
+      cd /redteam/exploit
+      git clone https://github.com/offensive-security/exploitdb.git
+      chmod +x searchsploit
       ## Install BloodHound:
       cd /redteam/windows-domains
       wget https://demonlinux.com/download/packages/4.X/BloodHound-linux-x64.zip
       unzip BloodHound-linux-x64.zip
       rm BloodHound-linux-x64.zip
-      ## Install Neo4j
+      ## Install Neo4j:
       echo "deb http://httpredir.debian.org/debian stretch-backports main" | sudo tee -a /etc/apt/sources.list.d/stretch-backports.list
       apt update
       apt install openjdk-11-jre -y
@@ -227,7 +237,26 @@ then
       cd /tmp
       wget https://demonlinux.com/download/packages/4.X/ulauncher_5.15.0_all.deb
       dpkg -i ulauncher_5.15.0_all.deb
-      apt -f install -y
+      ## Install Others:
+      python3 -m pip install ldapdomaindump
+      pipx install spraycharles
+      cd /redteam/printers
+      git clone https://github.com/RUB-NDS/PRET.git
+      python3 -m pip install colorama pysnmp
+      cd PRET && chmod +x *.py
+      cd /redteam/osint
+      git clone https://github.com/laramies/theHarvester.git
+      cd theHarvester
+      python3 -m pip install -r requirements/base.txt
+      cd /redteam/windows-domains
+      git clone https://github.com/ly4k/Certipy.git
+      python3 Certipy/setup.py install
+      python3 -m pip install coercer
+      cd /redteam/windows-domains
+      git clone https://github.com/cddmp/enum4linux-ng.git
+      cd enum4linux-ng
+      python3 -m pip install -r requirements.txt
+      ## TODO add more items ...       
     fi
     printf "${BOLD}${GRN}[i]${RST} Please set a new root password.\n"
     passwd root
