@@ -173,6 +173,7 @@ then
     printf "${BOLD}${GRN}[i]${RST} Installing a new kernel ... \n"
     apt install -y linux-image-amd64 live-boot systemd-sysv
     update-initramfs -u
+    ## Ask about Demon Linux Stuff (This by no means is a full list, but a good start):
     printf "${BOLD}${RED}[?]${RST} Would you like me to install Demon Linux-specific base applications [y/N]? "
     read ans
     if [[ "$ans" == "y" ]]
@@ -200,6 +201,8 @@ then
       mkdir -p /root/Pentest/scans
       mkdir -p /root/Pentest/files
       mkdir -p /root/Pentest/users
+      ## Install Responder:
+      cd /redteam/windows-domains/ && git clone https://github.com/lgandx/Responder.git
       ## Install Ulauncher:
       cd /tmp
       wget https://demonlinux.com/download/packages/4.X/ulauncher_5.15.0_all.deb
