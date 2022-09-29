@@ -49,7 +49,7 @@ gen_iso () {
   cp chroot/boot/initrd.img-* image/initrd
   ### Copt GRUB Menu over to new image area:
   cp grub/grub.cfg scratch/grub.cfg
-  touch image/DEMON_CUSTOM
+  touch image/DEBIAN_CUSTOM
 
   #################################
   ### UEFI/BIOS Booting:
@@ -93,7 +93,7 @@ gen_iso () {
   	-as mkisofs \
   	-iso-level 3 \
   	-full-iso9660-filenames \
-  	-volid "DEMON_CUSTOM" \
+  	-volid "DEBIAN_CUSTOM" \
   	-eltorito-boot \
   	 boot/grub/bios.img \
   	 -no-emul-boot \
@@ -178,7 +178,9 @@ then
     if [[ "$ans" == "y" ]]
     then
       printf "${BOLD}${GRN}[i]${RST} Installing customization apps ... \n"
-      apt install -y vim ftp open-vm-* curl git xfce4 tilix python3-pip python3 gedit dbus-x11 nmap unzip papirus-icon-theme python3-venv
+      apt install -y vim ftp open-vm-* curl git xfce4 tilix python3-pip python3 \
+        gedit dbus-x11 nmap unzip papirus-icon-theme python3-venv gedit proxychains4 freerdp2-x11 \
+        lightdm-settings lightdm slick-greeter xfce4-goodies
     fi
     printf "${BOLD}${GRN}[i]${RST} Please set a new root password.\n"
     passwd root
