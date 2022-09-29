@@ -16,15 +16,15 @@ printf " (c) GNU 2022 - ${BOLD}${GRN}@RackunSec${RST}\n"
 dciso_usage () {
   printf "\nUsage: ./dciso (args)\n"
   printf "\nArguments:\n"
+  printf "  ${BOLD}${RED}install-dep${RST} - Install all dciso dependencies.\n"
   printf "  ${BOLD}${RED}build-chroot ${YEL}(RELEASE)${RST} - Build the chroot directory.\n"
-  printf "  ${BOLD}${RED}install-dep${RST} - Install all DCISO dependencies.\n"
-  printf "  ${BOLD}${RED}clean${RST} - Destroys the chroot directory.\n"
   printf "  ${BOLD}${RED}start-chroot${RST} - Starts a chroot session in ./chroot.\n"
   printf "  ${BOLD}${RED}end-chroot${RST} - Ends the current chroot session from ./chroot\n"
-  printf "  ${BOLD}${RED}init${RST} - Performs first time set of of the chroot, should be ran within chroot.\n"
+  printf "  ${BOLD}${RED}clean${RST} - Destroys the chroot directory.\n"
+  printf "  ${BOLD}${RED}in-init${RST} - Performs first time set of of the chroot, should be ran within chroot.\n"
   printf "  ${BOLD}${RED}in-start-chroot${RST} - Sets up the current chroot session, should be ran within chroot.\n"
   printf "  ${BOLD}${RED}in-end-chroot${RST} - ends the current chroot session, should be ran within chroot.\n"
-  printf "  ${BOLD}${RED}geniso ${YEL}(ISO NAME).iso${RST} - Will create an ISO file from ./chroot\n\n"
+  printf "  ${BOLD}${RED}mkiso ${YEL}(ISO NAME).iso${RST} - Will create an ISO file from ./chroot\n\n"
   exit 1337
 }
 
@@ -153,7 +153,7 @@ then
   then
     printf "${BOLD}${GRN}[i]${RST} Installing DCISO dependencies ... \n"
     dciso_depends
-  elif [[ "$1" == "init" ]]
+  elif [[ "$1" == "in-init" ]]
   then
     printf "${BOLD}${GRN}[i]${RST} Initialization process started.\n"
     dciso_net
@@ -299,7 +299,7 @@ then
     umount /proc /sys /dev/pts /dev
     printf "${BOLD}${GRN}[i]${RST} Chroot session ended.\n"
     exit
-  elif [[ "$1" == "geniso" ]]
+  elif [[ "$1" == "mkiso" ]]
   then
     printf "\n${BOLD}${RED}[?]${RST} I need an ISO image file name ... \n"
     dciso_usage
