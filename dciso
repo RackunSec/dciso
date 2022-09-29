@@ -186,7 +186,8 @@ then
       apt install -y vim ftp open-vm-* curl git xfce4 tilix python3-pip python3 \
         gedit dbus-x11 nmap unzip papirus-icon-theme python3-venv gedit proxychains4 freerdp2-x11 \
         lightdm-settings lightdm slick-greeter xfce4-goodies libpcap-dev wget \
-        libssl-dev tcpdump firefox-esr unzip sudo smbclient imagemagick ghostscript 
+        libssl-dev tcpdump firefox-esr unzip sudo smbclient imagemagick ghostscript gnome-themes-extra gnome-themes-extra-data \
+        tshark 
       python3 -m pip install pipx ## for pipx apps
       python3 -m pip install poetry ## For poetry-enabled apps
       pipx ensurepath ## Fixes pipx $PATH
@@ -238,6 +239,8 @@ then
       apt install neo4j=1:4.4.9 -y
       ## Install Responder:
       cd /redteam/windows-domains/ && git clone https://github.com/lgandx/Responder.git
+      ## Install SQLMap
+      cd /redteam/web && git clone --depth 1 https://github.com/sqlmapproject/sqlmap.git sqlmap
       ## Install Ulauncher:
       cd /tmp
       wget https://demonlinux.com/download/packages/4.X/ulauncher_5.15.0_all.deb
