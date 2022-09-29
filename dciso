@@ -204,6 +204,7 @@ then
       git clone https://github.com/RackunSec/cme-modules.git
       git clone https://github.com/RackunSec/rackun-wordlists.git
       git clone https://github.com/RackunSec/q-dehashed.git
+      cd /usr/share && wget https://demonlinux.com/doanload/packages/4.X/demon.zip && unzip demon.zip && rm demon.zip
       ## Build out Pentest area:
       mkdir -p /root/Pentest/web
       mkdir -p /root/Pentest/scans
