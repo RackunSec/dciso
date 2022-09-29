@@ -180,7 +180,26 @@ then
       printf "${BOLD}${GRN}[i]${RST} Installing customization apps ... \n"
       apt install -y vim ftp open-vm-* curl git xfce4 tilix python3-pip python3 \
         gedit dbus-x11 nmap unzip papirus-icon-theme python3-venv gedit proxychains4 freerdp2-x11 \
-        lightdm-settings lightdm slick-greeter xfce4-goodies
+        lightdm-settings lightdm slick-greeter xfce4-goodies libpcap-dev \
+        libssl-dev tcpdump firefox-esr unzip 
+      python3 -m pip install pipx ## for pipx apps
+      python3 -m pip install poetry ## For poetry-enabled apps
+      pipx ensurepath ## Fixes pipx $PATH
+      pipx install mitm6 ## MITM6 is great
+      ## Build out the Red Team directory for all self-managed tools:
+      mkdir -p /redteam/windows-domains
+      mkdir -p /redteam/wifi
+      mkdir -p /redteam/osint
+      mkdir -p /redteam/web
+      mkdir -p /redteam/exploit
+      mkdir -p /redteam/rackunsec
+      mkdir -p /redteam/passwords
+      mkdir -p /redteam/wordlists
+      ## Build out Pentest area:
+      mkdir -p /root/Pentest/web
+      mkdir -p /root/Pentest/scans
+      mkdir -p /root/Pentest/files
+      mkdir -p /root/Pentest/users
     fi
     printf "${BOLD}${GRN}[i]${RST} Please set a new root password.\n"
     passwd root
