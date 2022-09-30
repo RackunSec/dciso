@@ -65,7 +65,7 @@ Finally, generate the ISO file with the following command:
 ```
 
 # Demon Linux Specific Items
-If you'd like the Demon Linux Bash shell prompt theme, use this in your `~/.bashrc` file:
+I built in a question that get's asked when you run `/etc/live-tools/dciso in-init` in your chroot which will install a base Demon Linux system if so inclined. Also, if you'd like the Demon Linux Bash shell prompt theme, use this in your `~/.bashrc` file:
 ```bash
 PS1='\[\033[48;5;;38;5;240m\]╭╴\[\e[m\]\[\e[1m\]${debian_chroot:+($debian_chroot)}\u\[\e[m\]\[\033[48;5;;38;5;243m\]＠\[\e[m\[\e[1m\]\h\[\e[m\]\[\033[48;5;;38;5;249m\]\[\e[m\]\[[\033[48;5;;38;5;243m\]\D{%m/%d/%Y %H:%M:%S}\[\e[m\]]\[\033[48;5;;38;5;240m\[\e[m\]\n\[\033[48;5;;38;5;239m\]╰⌊\[\e[m\]\[\033[48;5;;38;5;247m\]\w\[\e[m\]\[\033[48;5;;38;5;239m\]⌋\[\033[00m\]→  ';
 ```
