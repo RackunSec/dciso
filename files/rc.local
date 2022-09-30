@@ -1,0 +1,6 @@
+#!/bin/bash
+## This will start X11 session automatically (as root) when booting into the live distro 
+## This file should absolutely be removed upon installation of the ISO to disk.
+su -c "bash -i -c \"cd /root && startx\""
+
+exit 0
