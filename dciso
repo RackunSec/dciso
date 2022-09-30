@@ -52,7 +52,7 @@ dciso_mkiso () {
   cp chroot/boot/vmlinuz-* image/vmlinuz
   cp chroot/boot/initrd.img-* image/initrd
   ### Copt GRUB Menu over to new image area:
-  cp grub/grub.cfg scratch/grub.cfg
+  cp files/grub.cfg scratch/grub.cfg
   touch image/DEBIAN_CUSTOM
 
   #################################
